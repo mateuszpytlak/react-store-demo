@@ -1,10 +1,25 @@
+import {Header} from "./components/Header.tsx";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {Products} from "./pages/Products.tsx";
+
 export default function App() {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-            <h1 className="text-4xl font-bold text-blue-600">
-                Hello Tailwind v4 👋
-            </h1>
-            <p className="mt-4 text-gray-700">Zero config, pure speed ⚡</p>
+        <div className="flex flex-col">
+            <Header />
+            <main className="container py-6">
+                <Routes>
+                    <Route path="/" element={<Navigate to="/products" replace />} />
+                    <Route path="/products" element={<Products />} />
+                    {/*<Route path="/products/:id" element={<ProductDetails />} />*/}
+                    {/*<Route path="cart" element={<Cart />} />*/}
+                    {/*<Route path="checkout" element={<Checkout />} />*/}
+                </Routes>
+            </main>
+            <footer className="border-t mt-8">
+                <div className="container py-6 text-center text-sm text-gray-600">
+                    React Store Demo · FakeStore API
+                </div>
+            </footer>
         </div>
     );
 }
