@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import type {Product} from "../types.ts";
 import {fetchProducts} from "../api/products.ts";
+import {ProductCard} from "../components/ProductCard.tsx";
 
 export const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -32,9 +33,7 @@ export const Products = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                { products.map((product) => (
-                    <div>{product.title}</div>
-                )) }
+                { products.map((product) => <ProductCard key={product.id} product={product} /> )}
             </div>
         </section>
     )
