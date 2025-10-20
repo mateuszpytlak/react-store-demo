@@ -21,11 +21,11 @@ export const Cart = () => {
                 <ul className="divide-y">
                     {
                         items.map((item) =>
-                            <li className="py-4 flex items border-gray-200 items-center gap-4">
+                            <li key={item.id} className="py-4 flex items border-gray-200 items-center gap-4">
                                 <img src={item.image} alt={item.title} className="w-16 h-16 object-contain"/>
                                 <div className="flex-1">
                                     <div className="font-medium line-clamp-1">{item.title}</div>
-                                    <div className="text-sm text-gray-600">{item.price}</div>
+                                    <div className="text-sm text-gray-600">{formatPrice(item.price)}</div>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <input
