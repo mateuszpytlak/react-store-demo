@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import type {Product} from "../types.ts";
 import {fetchProducts} from "../api/products.ts";
 import {ProductCard} from "../components/ProductCard.tsx";
@@ -7,6 +7,17 @@ export const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const [query, setQuery] = useState('');
+    const [debouncedQuery, setDebouncedQuery] = useState('');
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDebouncedQuery(query);
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [query]);
 
     useEffect(() => {
         const run = async () => {
@@ -27,6 +38,13 @@ export const Products = () => {
         run();
     }, [])
 
+    const filteredProducts = useMemo( () => {
+        let list = [...products];
+        if (debouncedQuery) list = list.filter(product => product.title.toLowerCase().includes(debouncedQuery.toLowerCase()));
+
+        return list;
+    }, [products, debouncedQuery])
+
     if (error) return <div className="container py-10 text-red-600">Error: {error}</div>;
     if (loading) return <div className="container py-10">Loading products...</div>;
 
@@ -34,10 +52,18 @@ export const Products = () => {
         <section className="space-y-6">
             <div className="flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
                 <h1 className="text-2xl font-semibold">Products</h1>
+                <div className="flex flex-wrap gap-3">
+                    <input
+                        value={query}
+                        onChange={ (e) => setQuery(e.target.value)}
+                        placeholder="Search products..."
+                        className="border border-gray-200 bg-white rounded-lg px-3 py-2"
+                    />
+                </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {products.map((product) => <ProductCard key={product.id} product={product}/>)}
+                {filteredProducts.map((product) => <ProductCard key={product.id} product={product}/>)}
             </div>
         </section>
     )
