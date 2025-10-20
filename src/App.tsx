@@ -6,9 +6,9 @@ import {Cart} from "./pages/Cart.tsx";
 
 export default function App() {
     return (
-        <div className="flex flex-col">
+        <div className="min-h-screen flex flex-col">
             <Header />
-            <main className="container py-6">
+            <main className="container py-6 grow">
                 <Routes>
                     <Route path="/" element={<Navigate to="/products" replace />} />
                     <Route path="/products" element={<Products />} />
@@ -17,7 +17,7 @@ export default function App() {
                     {/*<Route path="checkout" element={<Checkout />} />*/}
                 </Routes>
             </main>
-            <footer className="border-t mt-8">
+            <footer className="border-t border-gray-200 mt-8">
                 <div className="container py-6 text-center text-sm text-gray-600">
                     React Store Demo · FakeStore API
                 </div>
