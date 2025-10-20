@@ -1,5 +1,5 @@
 import type {CartState} from "../types.ts";
-import {persist} from "zustand/middleware/persist";
+import {persist} from "zustand/middleware";
 import {create} from "zustand/react";
 
 export const useCart = create<CartState>()(
