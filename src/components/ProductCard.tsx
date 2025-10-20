@@ -1,6 +1,7 @@
 import type {Product} from "../types.ts";
 import {Link} from "react-router-dom";
 import {useCart} from "../store/cart.ts";
+import {formatPrice} from "../utils/format.ts";
 
 type Props = {
     product: Product;
@@ -18,7 +19,7 @@ export const ProductCard = ({product}: Props) => {
                 <h3 className="font-medium line-clamp-2 text-center">{product.title}</h3>
             </Link>
             <div className="mt-auto flex items-center justify-between pt-4">
-                <span className="text-lg font-semibold">{product.price}</span>
+                <span className="text-lg font-semibold">{formatPrice(product.price)}</span>
                 <button className="btn btn-primary" onClick={ () => add(product)}>Add to cart</button>
             </div>
         </div>
