@@ -1,5 +1,6 @@
 import {useCart} from "../store/cart.ts";
 import {Link} from "react-router-dom";
+import {formatPrice} from "../utils/format.ts";
 
 export const Cart = () => {
     const {items, setQty, remove, clear, totalPrice}= useCart();
@@ -20,7 +21,7 @@ export const Cart = () => {
                 <ul className="divide-y">
                     {
                         items.map((item) =>
-                            <li className="py-4 flex items items-center gap-4">
+                            <li className="py-4 flex items border-gray-200 items-center gap-4">
                                 <img src={item.image} alt={item.title} className="w-16 h-16 object-contain"/>
                                 <div className="flex-1">
                                     <div className="font-medium line-clamp-1">{item.title}</div>
@@ -32,7 +33,7 @@ export const Cart = () => {
                                         min={1}
                                         value={item.qty}
                                         onChange={(e) => setQty(item.id, Math.max(1, Number(e.target.value)))}
-                                        className="w-16 border rounded-lg px-2 py-1"
+                                        className="w-16 border border-gray-200 rounded-lg px-2 py-1"
                                     />
                                     <button className="btn" onClick={ () => remove(item.id) }>Remove</button>
                                 </div>
@@ -42,7 +43,7 @@ export const Cart = () => {
                 </ul>
                 <div className="flex justify-between items-center pt-4">
                     <button className="btn" onClick={clear}>Clear cart</button>
-                    <div className="text-lg font-semibold">Total: {totalPrice()}</div>
+                    <div className="text-lg font-semibold">Total: {formatPrice(totalPrice())}</div>
                 </div>
             </div>
 
@@ -50,7 +51,7 @@ export const Cart = () => {
                 <h3 className="font-semibold mb-2">Summary</h3>
                 <div className="flex justify-between mb-4">
                     <span>Subtotal</span>
-                    <span>{totalPrice()}</span>
+                    <span>{formatPrice(totalPrice())}</span>
                 </div>
                 <Link to="/checkout" className="btn btn-primary w-full">Go to checkout</Link>
             </aside>
