@@ -2,12 +2,14 @@ import {useEffect, useState} from "react";
 import {fetchProductById} from "../api/products.ts";
 import {useParams} from "react-router-dom";
 import type {Product} from "../types.ts";
+import {useCart} from "../store/cart.ts";
 
 export const ProductDetails = () => {
     const {id} = useParams();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const add = useCart((state) => state.add);
 
     useEffect(() => {
         const run = async () => {
@@ -50,7 +52,7 @@ export const ProductDetails = () => {
                 <p className="text-gray-700">{product.description}</p>
                 <div className="flex items-center justify-between pt-4">
                     <span className="text-2xl font-bold">{product.price}</span>
-                    <button className="btn btn-primary">Add to cart</button>
+                    <button className="btn btn-primary" onClick={ ()=> add(product)}>Add to cart</button>
                 </div>
             </div>
         </div>
