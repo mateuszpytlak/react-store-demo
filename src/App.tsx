@@ -1,6 +1,7 @@
 import {Header} from "./components/Header.tsx";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Products} from "./pages/Products.tsx";
+import {ProductDetails} from "./pages/ProductDetails.tsx";
 
 export default function App() {
     return (
@@ -10,7 +11,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Navigate to="/products" replace />} />
                     <Route path="/products" element={<Products />} />
-                    {/*<Route path="/products/:id" element={<ProductDetails />} />*/}
+                    <Route path="/products/:id" element={<ProductDetails />} />
                     {/*<Route path="cart" element={<Cart />} />*/}
                     {/*<Route path="checkout" element={<Checkout />} />*/}
                 </Routes>
