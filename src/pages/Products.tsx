@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 import type {Product} from "../types.ts";
-import {fetchProducts} from "../api/products.ts";
+import {fetchCategories, fetchProducts} from "../api/products.ts";
 import {ProductCard} from "../components/ProductCard.tsx";
 
 export const Products = () => {
@@ -8,6 +8,7 @@ export const Products = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const [categories, setCategories] = useState<string[]>([]);
     const [query, setQuery] = useState('');
     const [debouncedQuery, setDebouncedQuery] = useState('');
 
@@ -23,8 +24,9 @@ export const Products = () => {
         const run = async () => {
             try {
                 setLoading(true);
-                const [products] = await Promise.all([fetchProducts()])
+                const [products, cats] = await Promise.all([fetchProducts(), fetchCategories()])
                 setProducts(products);
+                setCategories(cats)
             } catch (e: unknown) {
                 if (e instanceof Error) {
                     setError(e.message);
@@ -59,6 +61,10 @@ export const Products = () => {
                         placeholder="Search products..."
                         className="border border-gray-200 bg-white rounded-lg px-3 py-2"
                     />
+                    <select className="border border-gray-200 bg-white rounded-lg px-3 py-2">
+                        <option value="all">All cetagories</option>
+                        {categories.map( (category) => <option key={category} value={category}>{category}</option> )}
+                    </select>
                 </div>
             </div>
 
