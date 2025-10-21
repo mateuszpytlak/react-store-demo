@@ -9,6 +9,8 @@ export const Products = () => {
     const [error, setError] = useState<string | null>(null);
 
     const [categories, setCategories] = useState<string[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const [sort, setSort] = useState<string>('relevance');
     const [query, setQuery] = useState('');
     const [debouncedQuery, setDebouncedQuery] = useState('');
 
@@ -42,10 +44,16 @@ export const Products = () => {
 
     const filteredProducts = useMemo( () => {
         let list = [...products];
+        if (selectedCategory !== 'all') list = list.filter(product => product.category === selectedCategory);
         if (debouncedQuery) list = list.filter(product => product.title.toLowerCase().includes(debouncedQuery.toLowerCase()));
+        switch (sort) {
+            case 'price-asc': list.sort((a, b) => a.price - b.price); break;
+            case 'price-desc': list.sort((a, b) => b.price - a.price); break;
+
+        }
 
         return list;
-    }, [products, debouncedQuery])
+    }, [products, selectedCategory, sort, debouncedQuery])
 
     if (error) return <div className="container py-10 text-red-600">Error: {error}</div>;
     if (loading) return <div className="container py-10">Loading products...</div>;
@@ -61,9 +69,16 @@ export const Products = () => {
                         placeholder="Search products..."
                         className="border border-gray-200 bg-white rounded-lg px-3 py-2"
                     />
-                    <select className="border border-gray-200 bg-white rounded-lg px-3 py-2">
-                        <option value="all">All cetagories</option>
+                    <select value={selectedCategory} onChange={ (e) => setSelectedCategory(e.target.value)} className="border border-gray-200 bg-white rounded-lg px-3 py-2">
+                        <option value="all">All categories</option>
                         {categories.map( (category) => <option key={category} value={category}>{category}</option> )}
+                    </select>
+                    <select value={sort} onChange={(e)=>setSort(e.target.value)} className="border border-gray-200 bg-white rounded-lg px-3 py-2">
+                        <option value="relevance">Sort: relevance</option>
+                        <option value="price-asc">Price ↑</option>
+                        <option value="price-desc">Price ↓</option>
+                        <option value="title-asc">Title A–Z</option>
+                        <option value="title-desc">Title Z–A</option>
                     </select>
                 </div>
             </div>
