@@ -49,7 +49,8 @@ export const Products = () => {
         switch (sort) {
             case 'price-asc': list.sort((a, b) => a.price - b.price); break;
             case 'price-desc': list.sort((a, b) => b.price - a.price); break;
-
+            case 'title-asc': list.sort((a, b) => a.title.localeCompare(b.title)); break;
+            case 'title-desc': list.sort((a, b) => b.title.localeCompare(a.title)); break;
         }
 
         return list;
