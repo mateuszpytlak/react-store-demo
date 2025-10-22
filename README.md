@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# React Store Demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A demo storefront built with React, TypeScript, and Vite that showcases a modern e-commerce browsing experience backed by the public [Fake Store API](https://fakestoreapi.com/). The project demonstrates product discovery features, cart management with persistence, and a validation-driven checkout flow.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Product catalog** – Browse items fetched from Fake Store API with responsive cards, loading states, and error handling.
+- **Search, filter, and sort** – Quickly find products by keyword, category, or different sorting options (price/title, ascending/descending).
+- **Product details** – Dedicated view with imagery and add-to-cart actions.
+- **Cart management** – Powered by Zustand with local storage persistence, quantity adjustments, totals, and removal helpers.
+- **Checkout form** – Built using React Hook Form + Zod for schema-based validation, form errors, and simulated submission.
+- **Routing** – Client-side navigation between catalog, product details, cart, and checkout pages via React Router.
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [React 19](https://react.dev/) with [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/) dev/build tooling
+- [Tailwind CSS](https://tailwindcss.com/) via the `@tailwindcss/vite` plugin
+- [React Router](https://reactrouter.com/)
+- [Zustand](https://zustand-demo.pmnd.rs/) for state management
+- [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) for form handling & validation
+- ESLint with TypeScript support
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Prerequisites: Node.js 20 or newer and npm 10+.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The development server will print a local URL (typically `http://localhost:5173`) where the app can be viewed. Press `q` or `Ctrl+C` in the terminal to stop the server.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Available scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command         | Description                                   |
+|-----------------|-----------------------------------------------|
+| `npm run dev`   | Start Vite in development mode with HMR        |
+| `npm run build` | Type-check and generate a production build     |
+| `npm run preview` | Preview the production build locally        |
+| `npm run lint`  | Run ESLint using the project configuration     |
+
+## Project structure
+
 ```
+src/
+  api/              # Fetch helpers for Fake Store API resources
+  components/       # Shared UI components (header, cards, etc.)
+  pages/            # Route-level views (products, cart, checkout)
+  store/            # Zustand store for cart state & persistence
+  utils/            # Reusable utilities (formatting helpers)
+```
+
+Static assets live in `public/`, while Vite configuration lives at the root.
+
+## API usage
+
+All product data is sourced from the public Fake Store API. No API keys are required. For offline development you can replace `fetch` calls in `src/api/products.ts` with mock data or a local JSON server.
+
+## Roadmap & planned enhancements
+
+- User accounts with authenticated checkout and order history.
+- Wishlist support and the ability to save carts for later.
+- Product reviews & ratings submission flow with optimistic updates.
+- Pagination and skeleton loading states for large catalogs.
+- Improved accessibility audit and keyboard navigation enhancements.
+- Integration tests (Playwright/Cypress) to cover critical flows.
