@@ -2,11 +2,13 @@
 
 A demo storefront built with React, TypeScript, and Vite that showcases a modern e-commerce browsing experience backed by the public [Fake Store API](https://fakestoreapi.com/). The project demonstrates product discovery features, cart management with persistence, and a validation-driven checkout flow.
 
+The latest build is deployed to Vercel and can be accessed at https://react-store-demo-six.vercel.app/products for quick previews of the storefront experience.
+
 ## Features
 
 - **Product catalog** – Browse items fetched from Fake Store API with responsive cards, loading states, and error handling.
 - **Search, filter, and sort** – Quickly find products by keyword, category, or different sorting options (price/title, ascending/descending).
-- **Product details** – Dedicated view with imagery and add-to-cart actions.
+- **Product details** – Dedicated view with imagery, metadata, and add-to-cart actions.
 - **Cart management** – Powered by Zustand with local storage persistence, quantity adjustments, totals, and removal helpers.
 - **Checkout form** – Built using React Hook Form + Zod for schema-based validation, form errors, and simulated submission.
 - **Routing** – Client-side navigation between catalog, product details, cart, and checkout pages via React Router.
@@ -66,3 +68,7 @@ All product data is sourced from the public Fake Store API. No API keys are requ
 - Pagination and skeleton loading states for large catalogs.
 - Improved accessibility audit and keyboard navigation enhancements.
 - Integration tests (Playwright/Cypress) to cover critical flows.
+
+## Contributing
+
+This repository is a demo and does not yet accept external contributions. Feel free to fork it and adapt the storefront to your needs.
