@@ -1,4 +1,4 @@
-import {Header} from "./components/Header.tsx";
+import {Header} from "./components/Header/Header.tsx";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Products} from "./pages/Products.tsx";
 import {ProductDetails} from "./pages/ProductDetails.tsx";
