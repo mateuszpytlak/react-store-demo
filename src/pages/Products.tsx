@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from "react";
 import type {Product} from "../types.ts";
 import {fetchCategories, fetchProducts} from "../api/products.ts";
-import {ProductCard} from "../components/ProductCard.tsx";
+import {ProductCard} from "../components/ProductCard/ProductCard.tsx";
 
 export const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
