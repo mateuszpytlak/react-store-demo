@@ -1,5 +1,5 @@
 import {Link, NavLink} from "react-router-dom";
-import {useCart} from "../store/cart.ts";
+import {useCart} from "../../store/cart.ts";
 
 export const Header = () => {
     const cartItemsCount = useCart(state => state.totalItems());
