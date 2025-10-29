@@ -4,8 +4,15 @@ import {Products} from "./pages/Products.tsx";
 import {ProductDetails} from "./pages/ProductDetails.tsx";
 import {Cart} from "./pages/Cart.tsx";
 import {Checkout} from "./pages/Checkout.tsx";
+import {useEffect} from "react";
+import {initAuthListener} from "./services/auth.ts";
+import {AuthForm} from "./components/AuthForm/AuthForm.tsx";
 
 export default function App() {
+    useEffect(() => {
+        initAuthListener();
+    }, [])
+
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
@@ -16,6 +23,7 @@ export default function App() {
                     <Route path="/products/:id" element={<ProductDetails />} />
                     <Route path="cart" element={<Cart />} />
                     <Route path="checkout" element={<Checkout />} />
+                    <Route path="auth" element={<AuthForm />} />
                 </Routes>
             </main>
             <footer className="border-t border-gray-200 mt-8">
