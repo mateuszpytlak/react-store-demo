@@ -1,7 +1,7 @@
 import { persist } from 'zustand/middleware';
 import {create} from "zustand/react";
-import {fetchProducts} from "../api/products.ts";
-import type {Product} from "../types.ts";
+import {fetchProducts} from "../../api/products.ts";
+import type {Product} from "../../types.ts";
 
 type ProductStore = {
     products: Product[];

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchCategories } from "../api/products";
 import { ProductCard } from "../components/ProductCard/ProductCard";
-import { useProducts } from "../store/useProducts";
+import { useProducts } from "../store/useProducts/useProducts.ts";
 
 export const Products = () => {
     const { products, fetchAll, loading, error } = useProducts();
