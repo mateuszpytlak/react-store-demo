@@ -1,6 +1,6 @@
 import type {Product} from "../../types.ts";
 import {Link} from "react-router-dom";
-import {useCart} from "../../store/cart.ts";
+import {useCart} from "../../store/cart/cart.ts";
 import {formatPrice} from "../../utils/format.ts";
 
 type Props = {
