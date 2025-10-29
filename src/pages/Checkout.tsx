@@ -1,4 +1,4 @@
-import {useCart} from "../store/cart.ts";
+import {useCart} from "../store/cart/cart.ts";
 import {formatPrice} from "../utils/format.ts";
 import {useForm} from "react-hook-form";
 import {z} from "zod";

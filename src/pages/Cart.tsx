@@ -1,4 +1,4 @@
-import {useCart} from "../store/cart.ts";
+import {useCart} from "../store/cart/cart.ts";
 import {Link} from "react-router-dom";
 import {formatPrice} from "../utils/format.ts";
 

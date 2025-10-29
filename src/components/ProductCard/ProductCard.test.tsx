@@ -3,7 +3,7 @@ import {render, screen} from "@testing-library/react";
 import {MemoryRouter} from 'react-router-dom';
 import {ProductCard} from "./ProductCard.tsx";
 import type {Product} from "../../types.ts";
-import {useCart} from "../../store/cart.ts";
+import {useCart} from "../../store/cart/cart.ts";
 import userEvent from '@testing-library/user-event';
 
 describe('ProductCardComponent', () => {

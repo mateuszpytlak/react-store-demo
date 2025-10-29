@@ -1,4 +1,4 @@
-import type {CartState} from "../types.ts";
+import type {CartState} from "../../types.ts";
 import {persist} from "zustand/middleware";
 import {create} from "zustand/react";
 

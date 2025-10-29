@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {fetchProductById} from "../api/products.ts";
 import {useParams} from "react-router-dom";
 import type {Product} from "../types.ts";
-import {useCart} from "../store/cart.ts";
+import {useCart} from "../store/cart/cart.ts";
 
 export const ProductDetails = () => {
     const {id} = useParams();
