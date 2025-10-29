@@ -1,4 +1,4 @@
-import type {Product} from "../types.ts";
+import type {Product} from "../../types.ts";
 import {beforeEach, describe, expect, it} from "vitest";
 import {useCart} from "./cart.ts";
 
