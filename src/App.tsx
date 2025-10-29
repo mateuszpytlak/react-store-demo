@@ -23,7 +23,7 @@ export default function App() {
                     <Route path="/products/:id" element={<ProductDetails />} />
                     <Route path="cart" element={<Cart />} />
                     <Route path="checkout" element={<Checkout />} />
-                    <Route path="auth" element={<AuthForm />} />
+                    <Route path="login" element={<AuthForm />} />
                 </Routes>
             </main>
             <footer className="border-t border-gray-200 mt-8">
