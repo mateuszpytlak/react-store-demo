@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
-import { useAuthStore } from "../store/authStore/authStore";
-import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {collection, getDocs, orderBy, query} from "firebase/firestore";
+import {db} from "../../firebaseConfig";
+import {useAuthStore} from "../store/authStore/authStore";
+import {useNavigate} from "react-router-dom";
 
 interface Order {
     id: string;
@@ -12,12 +12,11 @@ interface Order {
 }
 
 export const MyOrders = () => {
-    const { user } = useAuthStore();
+    const {user} = useAuthStore();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // jeśli nie zalogowany → redirect
     useEffect(() => {
         if (!user) navigate("/login");
     }, [user, navigate]);
@@ -46,45 +45,50 @@ export const MyOrders = () => {
         fetchOrders();
     }, [user]);
 
-    if (loading) return <p className="text-center py-10">Loading orders...</p>;
+    if (loading) return <p className="text-center py-10 text-white/80">Ładowanie zamówień...</p>;
 
     if (!orders.length)
         return (
-            <div className="text-center py-16">
-                <h2 className="text-xl font-semibold mb-2">No orders yet</h2>
-                <p className="text-gray-500">Your recent orders will appear here.</p>
+            <div className="card glass p-8 text-center floating">
+                <h2 className="text-xl font-semibold mb-2 text-white">Brak zamówień</h2>
+                <p className="text-white/70">Twoje ostatnie zamówienia pojawią się tutaj.</p>
             </div>
         );
 
     return (
-        <div className="container max-w-3xl mx-auto py-10">
-            <h1 className="text-2xl font-bold mb-6">My Orders</h1>
+        <div className="max-w-3xl mx-auto space-y-5">
+            <div className="card glass p-6 floating">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/60">Konto</p>
+                <h1 className="text-2xl font-bold text-white">Moje zamówienia</h1>
+                <p className="text-white/70 mt-2">Historia zakupów uporządkowana od najnowszych.</p>
+            </div>
 
             <ul className="space-y-4">
                 {orders.map((order) => (
                     <li
                         key={order.id}
-                        className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm"
+                        className="card glass p-5 shadow-xl floating"
                     >
-                        <div className="flex items-center justify-between">
-                            <h2 className="font-semibold">Order #{order.id}</h2>
-                            <p className="text-sm text-gray-500">
+                        <div className="flex items-center justify-between mb-2 text-white">
+                            <h2 className="font-semibold">Zamówienie #{order.id}</h2>
+                            <p className="text-sm text-white/70">
                                 {order.createdAt
                                     ? new Date(order.createdAt).toLocaleString()
-                                    : "Pending..."}
+                                    : "W trakcie realizacji"}
                             </p>
                         </div>
 
-                        <ul className="mt-3 text-sm text-gray-700 space-y-1">
+                        <ul className="mt-3 text-sm text-white/80 space-y-1">
                             {order.items.map((item, index) => (
-                                <li key={index}>
-                                    • {item.title} – {item.price.toFixed(2)} PLN
+                                <li key={index} className="flex justify-between">
+                                    <span>- {item.title}</span>
+                                    <span>{item.price.toFixed(2)} PLN</span>
                                 </li>
                             ))}
                         </ul>
 
-                        <p className="text-right font-semibold mt-3">
-                            Total: {order.total.toFixed(2)} PLN
+                        <p className="text-right font-semibold mt-4 text-white">
+                            Razem: {order.total.toFixed(2)} PLN
                         </p>
                     </li>
                 ))}

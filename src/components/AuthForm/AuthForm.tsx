@@ -39,77 +39,83 @@ export const AuthForm = () => {
 
     return (
         <div className="flex items-center justify-center min-h-[80vh]">
-            <div className="w-full max-w-sm bg-white rounded-2xl shadow p-6 border border-gray-200">
+            <div className="w-full max-w-md card glass p-6 floating relative overflow-hidden">
+                <div className="absolute -top-14 -right-10 w-44 h-44 rounded-full bg-purple-500/20 blur-3xl" aria-hidden />
+                <div className="absolute -bottom-10 -left-6 w-36 h-36 rounded-full bg-indigo-400/20 blur-3xl" aria-hidden />
+
                 {user ? (
-                    <div className="text-center">
-                        <p className="text-gray-800 mb-4">
-                            Logged in as <strong>{user.email}</strong>
+                    <div className="text-center relative z-[1] space-y-4">
+                        <p className="text-white/80">
+                            Jesteś zalogowany jako <strong className="text-white">{user.email}</strong>
                         </p>
                         <button
                             onClick={logoutUser}
-                            className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-md transition"
+                            className="btn btn-primary w-full"
                             disabled={isSubmitting}
                         >
-                            Logout
+                            Wyloguj
                         </button>
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        <h2 className="text-2xl font-semibold text-center mb-6">
-                            {mode === 'login' ? 'Login' : 'Register'}
-                        </h2>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 relative z-[1]">
+                        <div className="text-center space-y-1">
+                            <p className="text-xs uppercase tracking-[0.2em] text-white/60">Strefa klienta</p>
+                            <h2 className="text-2xl font-semibold text-white">
+                                {mode === 'login' ? 'Logowanie' : 'Rejestracja'}
+                            </h2>
+                        </div>
 
                         <div>
                             <input
                                 type="email"
                                 {...register("email")}
                                 placeholder="E-mail"
-                                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder:text-white/50 focus:ring-2 focus:ring-purple-500/60 focus:outline-none"
                             />
-                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                            {errors.email && <p className="text-red-300 text-sm mt-1">{errors.email.message}</p>}
                         </div>
 
                         <div>
                             <input
                                 type="password"
                                 {...register("password")}
-                                placeholder="Password"
-                                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                placeholder="Hasło"
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder:text-white/50 focus:ring-2 focus:ring-purple-500/60 focus:outline-none"
                             />
-                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+                            {errors.password && <p className="text-red-300 text-sm mt-1">{errors.password.message}</p>}
                         </div>
 
-                        {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
+                        {error && <p className="text-red-300 text-sm mb-2">{error}</p>}
 
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition disabled:opacity-50"
+                            className="btn btn-primary w-full"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "Logging in..." : mode === "login" ? "Login" : "Register"}
+                            {isSubmitting ? "Przetwarzanie..." : mode === "login" ? "Zaloguj" : "Zarejestruj"}
                         </button>
 
-                        <p className="text-center text-sm mt-4 text-gray-600">
+                        <p className="text-center text-sm mt-2 text-white/70">
                             {mode === "login" ? (
                                 <>
-                                    Don't have an account?{" "}
+                                    Nie masz konta?{" "}
                                     <button
                                         type="button"
                                         onClick={() => setMode("register")}
-                                        className="text-blue-600 hover:underline font-medium"
+                                        className="text-white underline font-semibold"
                                     >
-                                        Register
+                                        Zarejestruj się
                                     </button>
                                 </>
                             ) : (
                                 <>
-                                    Already have an account?{" "}
+                                    Masz już konto?{" "}
                                     <button
                                         type="button"
                                         onClick={() => setMode("login")}
-                                        className="text-blue-600 hover:underline font-medium"
+                                        className="text-white underline font-semibold"
                                     >
-                                        Login
+                                        Zaloguj się
                                     </button>
                                 </>
                             )}
