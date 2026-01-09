@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+﻿import {useEffect, useState} from "react";
 import {fetchProductById} from "../api/products.ts";
 import {useParams} from "react-router-dom";
 import type {Product} from "../types.ts";
@@ -34,7 +34,7 @@ export const ProductDetails = () => {
     if (loading) return <div className="py-10 text-white/80">Loading product...</div>;
     if (error || !product) return (
         <div className="container py-10 text-red-300">
-            {error ?? 'Product not found'}
+            {error ?? "Product not found"}
         </div>
     )
 
@@ -47,7 +47,7 @@ export const ProductDetails = () => {
                     <span className="chip capitalize">{product.category}</span>
                     {product.rating &&
                         <div className="rounded-full bg-white/10 border border-white/10 px-3 py-1 text-xs text-white flex items-center gap-2">
-                            <span>Ocena</span>
+                            <span>Rating</span>
                             <strong>{product.rating.rate}</strong>
                             <span className="text-white/60">({product.rating.count})</span>
                         </div>
@@ -62,22 +62,22 @@ export const ProductDetails = () => {
                 <p className="muted leading-relaxed">{product.description}</p>
                 <div className="flex items-center gap-4 flex-wrap">
                     <div className="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
-                        <p className="text-xs uppercase text-white/60">Kategoria</p>
+                        <p className="text-xs uppercase text-white/60">Category</p>
                         <p className="text-white font-semibold capitalize">{product.category}</p>
                     </div>
                     {product.rating && (
                         <div className="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
-                            <p className="text-xs uppercase text-white/60">Liczba opinii</p>
+                            <p className="text-xs uppercase text-white/60">Review count</p>
                             <p className="text-white font-semibold">{product.rating.count}</p>
                         </div>
                     )}
                 </div>
                 <div className="flex items-center justify-between pt-2">
                     <div>
-                        <p className="text-sm uppercase text-white/60">Cena</p>
+                        <p className="text-sm uppercase text-white/60">Price</p>
                         <p className="text-3xl font-bold text-white">{formatPrice(product.price)}</p>
                     </div>
-                    <button className="btn btn-primary" onClick={() => add(product)}>Dodaj do koszyka</button>
+                    <button className="btn btn-primary" onClick={() => add(product)}>Add to cart</button>
                 </div>
             </div>
         </div>

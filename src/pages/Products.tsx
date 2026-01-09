@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+﻿import {useEffect, useMemo, useState} from "react";
 import {fetchCategories} from "../api/products";
 import {ProductCard} from "../components/ProductCard/ProductCard";
 import {useProducts} from "../store/useProducts/useProducts.ts";
@@ -62,18 +62,18 @@ export const Products = () => {
                 <div className="relative z-[1] flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                     <div className="space-y-4 max-w-2xl">
                         <div className="chip w-fit">Fresh stock</div>
-                        <h1 className="fancy-heading">Poznaj naszą wyselekcjonowaną kolekcję</h1>
+                        <h1 className="fancy-heading">Explore our curated collection</h1>
                         <p className="muted max-w-xl">
-                            Wybieramy najlepsze propozycje z FakeStore: styl, elektronika i lifestyle w jednym miejscu.
-                            Szukaj, filtruj i porównuj bez wysiłku.
+                            We pick the best from FakeStore: style, electronics, and lifestyle in one place.
+                            Search, filter, and compare with ease.
                         </p>
                         <div className="flex flex-wrap gap-4 text-white/80">
                             <div className="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
-                                <p className="text-xs uppercase text-white/60">Dostępne</p>
+                                <p className="text-xs uppercase text-white/60">Available</p>
                                 <p className="text-2xl font-bold">{products.length}</p>
                             </div>
                             <div className="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
-                                <p className="text-xs uppercase text-white/60">Kategorie</p>
+                                <p className="text-xs uppercase text-white/60">Categories</p>
                                 <p className="text-2xl font-bold">{categories.length || "-"}</p>
                             </div>
                         </div>
@@ -84,14 +84,14 @@ export const Products = () => {
             <div className="card glass p-4 md:p-5 flex flex-col gap-4 floating">
                 <div className="flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
                     <div>
-                        <p className="text-sm uppercase tracking-[0.2em] text-white/60">Kolekcja</p>
-                        <h2 className="text-xl font-semibold text-white">Przeglądaj produkty</h2>
+                        <p className="text-sm uppercase tracking-[0.2em] text-white/60">Collection</p>
+                        <h2 className="text-xl font-semibold text-white">Browse products</h2>
                     </div>
                     <div className="flex flex-wrap gap-3">
                         <input
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Szukaj po nazwie..."
+                            placeholder="Search by name..."
                             className="bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
                         />
                         <div className="select-shell">
@@ -100,7 +100,7 @@ export const Products = () => {
                                 onChange={(e) => setSelectedCategory(e.target.value)}
                                 className="select-field"
                             >
-                                <option value="all">Wszystkie kategorie</option>
+                                <option value="all">All categories</option>
                                 {categories.map((c) => (
                                     <option key={c} value={c}>
                                         {c}
@@ -114,11 +114,11 @@ export const Products = () => {
                                 onChange={(e) => setSort(e.target.value)}
                                 className="select-field"
                             >
-                                <option value="relevance">Sortowanie: trafność</option>
-                                <option value="price-asc">Cena: od najniższej</option>
-                                <option value="price-desc">Cena: od najwyższej</option>
-                                <option value="title-asc">Tytuł: A-Z</option>
-                                <option value="title-desc">Tytuł: Z-A</option>
+                                <option value="relevance">Sort: relevance</option>
+                                <option value="price-asc">Price: low to high</option>
+                                <option value="price-desc">Price: high to low</option>
+                                <option value="title-asc">Title: A-Z</option>
+                                <option value="title-desc">Title: Z-A</option>
                             </select>
                         </div>
                     </div>

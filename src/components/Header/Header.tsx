@@ -42,7 +42,7 @@ export const Header = () => {
                     </span>
                     <div>
                         <p className="text-xs uppercase tracking-[0.2em] text-white/60">React Store</p>
-                        <p className="text-lg font-bold text-white leading-tight">Kolekcja Premium</p>
+                        <p className="text-lg font-bold text-white leading-tight">Premium Collection</p>
                     </div>
                 </Link>
 

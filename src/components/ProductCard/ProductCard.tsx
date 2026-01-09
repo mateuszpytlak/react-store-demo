@@ -31,10 +31,10 @@ export const ProductCard = ({product}: Props) => {
 
             <div className="mt-auto flex items-center justify-between pt-4 relative z-[1]">
                 <div className="flex flex-col">
-                    <span className="text-xs uppercase text-white/60 tracking-wide">Cena</span>
+                    <span className="text-xs uppercase text-white/60 tracking-wide">Price</span>
                     <span className="text-xl font-bold text-white">{formatPrice(product.price)}</span>
                 </div>
-                <button className="btn btn-primary" onClick={() => add(product)}>Dodaj do koszyka</button>
+                <button className="btn btn-primary" onClick={() => add(product)}>Add to cart</button>
             </div>
         </div>
     )
