@@ -1,4 +1,4 @@
-import {useCart} from "../store/cart/cart.ts";
+﻿import {useCart} from "../store/cart/cart.ts";
 import {Link} from "react-router-dom";
 import {formatPrice} from "../utils/format.ts";
 
@@ -8,8 +8,8 @@ export const Cart = () => {
     if (items.length === 0) {
         return (
             <div className="text-center py-16 text-white">
-                <p className="mb-4 text-white/70">Twój koszyk jest pusty.</p>
-                <Link to="/products" className="btn btn-primary">Przeglądaj produkty</Link>
+                <p className="mb-4 text-white/70">Your cart is empty.</p>
+                <Link to="/products" className="btn btn-primary">Browse products</Link>
             </div>
         );
     }
@@ -19,10 +19,10 @@ export const Cart = () => {
             <div className="card glass p-5 floating">
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <p className="text-xs uppercase tracking-[0.2em] text-white/60">Koszyk</p>
-                        <h2 className="text-xl font-semibold text-white">Twoje produkty</h2>
+                        <p className="text-xs uppercase tracking-[0.2em] text-white/60">Cart</p>
+                        <h2 className="text-xl font-semibold text-white">Your items</h2>
                     </div>
-                    <button className="btn text-white" onClick={clear}>Wyczyść</button>
+                    <button className="btn text-white" onClick={clear}>Clear</button>
                 </div>
                 <ul className="divide-y divide-white/10">
                     {items.map((item) =>
@@ -37,10 +37,10 @@ export const Cart = () => {
                                     <button
                                         type="button"
                                         className="qty-btn"
-                                        aria-label="Zmniejsz ilość"
+                                        aria-label="Decrease quantity"
                                         onClick={() => setQty(item.id, Math.max(1, item.qty - 1))}
                                     >
-                                        <span className="qty-symbol">−</span>
+                                        <span className="qty-symbol">-</span>
                                     </button>
                                     <input
                                         type="number"
@@ -52,29 +52,29 @@ export const Cart = () => {
                                     <button
                                         type="button"
                                         className="qty-btn"
-                                        aria-label="Zwiększ ilość"
+                                        aria-label="Increase quantity"
                                         onClick={() => setQty(item.id, item.qty + 1)}
                                     >
                                         <span className="qty-symbol">+</span>
                                     </button>
                                 </div>
-                                <button className="btn" onClick={() => remove(item.id)}>Usuń</button>
+                                <button className="btn" onClick={() => remove(item.id)}>Remove</button>
                             </div>
                         </li>
                     )}
                 </ul>
                 <div className="flex justify-between items-center pt-4 text-white">
-                    <div className="text-lg font-semibold">Razem: {formatPrice(totalPrice())}</div>
+                    <div className="text-lg font-semibold">Total: {formatPrice(totalPrice())}</div>
                 </div>
             </div>
 
             <aside className="card glass p-5 h-fit floating">
-                <h3 className="font-semibold mb-3 text-white">Podsumowanie</h3>
+                <h3 className="font-semibold mb-3 text-white">Summary</h3>
                 <div className="flex justify-between mb-4 text-white/80">
-                    <span>Suma częściowa</span>
+                    <span>Subtotal</span>
                     <span>{formatPrice(totalPrice())}</span>
                 </div>
-                <Link to="/checkout" className="btn btn-primary w-full">Przejdź do zamówienia</Link>
+                <Link to="/checkout" className="btn btn-primary w-full">Proceed to checkout</Link>
             </aside>
         </div>
     );
