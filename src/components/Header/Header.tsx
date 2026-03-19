@@ -3,7 +3,8 @@ import {ShoppingCart, UserRound, LogOut, Package, Sparkle} from "lucide-react";
 import {useCart} from "../../store/cart/cart";
 import {useAuthStore} from "../../store/authStore/authStore";
 import {logoutUser} from "../../services/auth";
-import {useState, useRef, useEffect} from "react";
+import {useState, useRef} from "react";
+import {useClickOutside} from "../../hooks/useClickOutside";
 
 export const Header = () => {
     const cartItemsCount = useCart((state) => state.totalItems());
@@ -12,15 +13,7 @@ export const Header = () => {
     const menuRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    useClickOutside(menuRef, () => setOpen(false));
 
     const handleLogout = async () => {
         await logoutUser();

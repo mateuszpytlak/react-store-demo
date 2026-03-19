@@ -1,55 +1,21 @@
-﻿import {useEffect, useMemo, useState} from "react";
-import {fetchCategories} from "../api/products";
-import {ProductCard} from "../components/ProductCard/ProductCard";
-import {useProducts} from "../store/useProducts/useProducts.ts";
+import { useEffect } from "react";
+import { ProductCard } from "../components/ProductCard/ProductCard";
+import { useProducts } from "../store/useProducts/useProducts.ts";
+import { useProductFilters } from "../hooks/useProductFilters.ts";
 
 export const Products = () => {
-    const {products, fetchAll, loading, error} = useProducts();
-    const [categories, setCategories] = useState<string[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState("all");
-    const [sort, setSort] = useState("relevance");
-    const [query, setQuery] = useState("");
-    const [debouncedQuery, setDebouncedQuery] = useState("");
-
-    useEffect(() => {
-        const timeout = setTimeout(() => setDebouncedQuery(query), 500);
-        return () => clearTimeout(timeout);
-    }, [query]);
+    const { products, fetchAll, loading, error } = useProducts();
+    const {
+        categories,
+        selectedCategory, setSelectedCategory,
+        sort, setSort,
+        query, setQuery,
+        filteredProducts,
+    } = useProductFilters(products);
 
     useEffect(() => {
         fetchAll();
     }, [fetchAll]);
-
-    useEffect(() => {
-        fetchCategories().then(setCategories).catch(console.error);
-    }, []);
-
-    const filteredProducts = useMemo(() => {
-        let list = [...products];
-        if (selectedCategory !== "all") {
-            list = list.filter((p) => p.category === selectedCategory);
-        }
-        if (debouncedQuery) {
-            list = list.filter((p) =>
-                p.title.toLowerCase().includes(debouncedQuery.toLowerCase())
-            );
-        }
-        switch (sort) {
-            case "price-asc":
-                list.sort((a, b) => a.price - b.price);
-                break;
-            case "price-desc":
-                list.sort((a, b) => b.price - a.price);
-                break;
-            case "title-asc":
-                list.sort((a, b) => a.title.localeCompare(b.title));
-                break;
-            case "title-desc":
-                list.sort((a, b) => b.title.localeCompare(a.title));
-                break;
-        }
-        return list;
-    }, [products, selectedCategory, sort, debouncedQuery]);
 
     if (error) return <div className="container py-10 text-red-300">Error: {error}</div>;
     if (loading) return <div className="container py-10 text-white/80">Loading products...</div>;
@@ -95,25 +61,15 @@ export const Products = () => {
                             className="bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
                         />
                         <div className="select-shell">
-                            <select
-                                value={selectedCategory}
-                                onChange={(e) => setSelectedCategory(e.target.value)}
-                                className="select-field"
-                            >
+                            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="select-field">
                                 <option value="all">All categories</option>
                                 {categories.map((c) => (
-                                    <option key={c} value={c}>
-                                        {c}
-                                    </option>
+                                    <option key={c} value={c}>{c}</option>
                                 ))}
                             </select>
                         </div>
                         <div className="select-shell">
-                            <select
-                                value={sort}
-                                onChange={(e) => setSort(e.target.value)}
-                                className="select-field"
-                            >
+                            <select value={sort} onChange={(e) => setSort(e.target.value)} className="select-field">
                                 <option value="relevance">Sort: relevance</option>
                                 <option value="price-asc">Price: low to high</option>
                                 <option value="price-desc">Price: high to low</option>
