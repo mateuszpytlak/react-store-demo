@@ -10,20 +10,14 @@ import { db } from "../../firebaseConfig.ts";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { CheckCircle } from "lucide-react";
 
-const schemaGuest = z.object({
+const schema = z.object({
     name: z.string().min(2, "Name is too short"),
     email: z.email("Invalid email"),
     address: z.string().min(5, "Address is too short"),
     notes: z.string().optional(),
 });
 
-const schemaUser = z.object({
-    name: z.string().min(2, "Name is too short"),
-    address: z.string().min(5, "Address is too short"),
-    notes: z.string().optional(),
-});
-
-type FormData = z.infer<typeof schemaGuest>;
+type FormData = z.infer<typeof schema>;
 
 const inputClass = "w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60";
 
@@ -34,7 +28,8 @@ export const Checkout = () => {
     const [error, setError] = useState<string | null>(null);
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
-        resolver: zodResolver(user ? schemaUser : schemaGuest),
+        resolver: zodResolver(schema),
+        defaultValues: { email: user?.email ?? "" },
     });
 
     const onSubmit = async (data: FormData) => {
