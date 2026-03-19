@@ -6,7 +6,9 @@ import {Cart} from "./pages/Cart.tsx";
 import {Checkout} from "./pages/Checkout.tsx";
 import {useEffect} from "react";
 import {initAuthListener} from "./services/auth.ts";
-import {AuthForm} from "./components/AuthForm/AuthForm.tsx";
+import {Login} from "./pages/Login.tsx";
+import {Register} from "./pages/Register.tsx";
+import {ForgotPassword} from "./pages/ForgotPassword.tsx";
 import {MyOrders} from "./pages/MyOrders.tsx";
 import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute.tsx";
 
@@ -31,7 +33,9 @@ export default function App() {
                     <Route path="/products/:id" element={<ProductDetails/>}/>
                     <Route path="/cart" element={<Cart/>}/>
                     <Route path="/checkout" element={<Checkout/>}/>
-                    <Route path="/login" element={<AuthForm/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
                     <Route path="/account" element={<PrivateRoute><MyOrders/></PrivateRoute>}/>
                 </Routes>
             </main>

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
 import {auth} from "../../firebaseConfig.ts";
 import {useAuthStore} from "../store/authStore/authStore.ts";
 
@@ -24,4 +24,9 @@ export const loginUser = (email: string, password: string) => {
 //Logout
 export const logoutUser = () => {
     return signOut(auth);
+}
+
+//Reset password
+export const resetPassword = (email: string) => {
+    return sendPasswordResetEmail(auth, email);
 }
