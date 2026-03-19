@@ -3,10 +3,14 @@ import type {User} from "firebase/auth";
 
 interface AuthState {
     user: User | null;
+    initialized: boolean;
     setUser: (user: User | null) => void;
+    setInitialized: (initialized: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
     user: null,
-    setUser: (user) => set({user}),
+    initialized: false,
+    setUser: (user) => set({ user }),
+    setInitialized: (initialized) => set({ initialized }),
 }));

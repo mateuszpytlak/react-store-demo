@@ -3,11 +3,12 @@ import {auth} from "../../firebaseConfig.ts";
 import {useAuthStore} from "../store/authStore/authStore.ts";
 
 //Subscribe to auth state changes
-export const  initAuthListener = () => {
-    const { setUser } = useAuthStore.getState();
+export const initAuthListener = () => {
+    const { setUser, setInitialized } = useAuthStore.getState();
     onAuthStateChanged(auth, (user) => {
         setUser(user);
-    })
+        setInitialized(true);
+    });
 }
 
 //Register

@@ -12,6 +12,22 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+const getAuthErrorMessage = (error: unknown): string => {
+    if (error !== null && typeof error === "object" && "code" in error) {
+        const messages: Record<string, string> = {
+            "auth/invalid-credential": "Invalid email or password.",
+            "auth/email-already-in-use": "This email is already registered.",
+            "auth/weak-password": "Password is too weak.",
+            "auth/user-not-found": "Invalid email or password.",
+            "auth/wrong-password": "Invalid email or password.",
+            "auth/too-many-requests": "Too many attempts. Try again later.",
+            "auth/network-request-failed": "Network error. Check your connection.",
+        };
+        return messages[error.code as string] ?? "Something went wrong. Try again.";
+    }
+    return "Something went wrong. Try again.";
+};
+
 export const AuthForm = () => {
     const {user} = useAuthStore();
     const [mode, setMode] = useState<"login" | "register">("login");
@@ -29,11 +45,7 @@ export const AuthForm = () => {
             }
             reset();
         } catch (e: unknown) {
-            if (e instanceof Error) {
-                setError(e.message);
-            } else {
-                setError("Unknown error");
-            }
+            setError(getAuthErrorMessage(e));
         }
     };
 
@@ -98,7 +110,7 @@ export const AuthForm = () => {
                         <p className="text-center text-sm mt-2 text-white/70">
                             {mode === "login" ? (
                                 <>
-                                    Don\'t have an account?{" "}
+                                    Don't have an account?{" "}
                                     <button
                                         type="button"
                                         onClick={() => setMode("register")}

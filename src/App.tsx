@@ -8,6 +8,7 @@ import {useEffect} from "react";
 import {initAuthListener} from "./services/auth.ts";
 import {AuthForm} from "./components/AuthForm/AuthForm.tsx";
 import {MyOrders} from "./pages/MyOrders.tsx";
+import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute.tsx";
 
 export default function App() {
     useEffect(() => {
@@ -31,7 +32,7 @@ export default function App() {
                     <Route path="/cart" element={<Cart/>}/>
                     <Route path="/checkout" element={<Checkout/>}/>
                     <Route path="/login" element={<AuthForm/>}/>
-                    <Route path="/account" element={<MyOrders/>}/>
+                    <Route path="/account" element={<PrivateRoute><MyOrders/></PrivateRoute>}/>
                 </Routes>
             </main>
 

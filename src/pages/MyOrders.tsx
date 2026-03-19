@@ -2,7 +2,6 @@
 import {collection, getDocs, orderBy, query} from "firebase/firestore";
 import {db} from "../../firebaseConfig";
 import {useAuthStore} from "../store/authStore/authStore";
-import {useNavigate} from "react-router-dom";
 
 interface Order {
     id: string;
@@ -15,11 +14,6 @@ export const MyOrders = () => {
     const {user} = useAuthStore();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!user) navigate("/login");
-    }, [user, navigate]);
 
     useEffect(() => {
         if (!user) return;
