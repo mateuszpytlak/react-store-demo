@@ -10,14 +10,20 @@ import { db } from "../../firebaseConfig.ts";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { CheckCircle } from "lucide-react";
 
-const schema = z.object({
+const schemaGuest = z.object({
     name: z.string().min(2, "Name is too short"),
     email: z.email("Invalid email"),
     address: z.string().min(5, "Address is too short"),
     notes: z.string().optional(),
 });
 
-type FormData = z.infer<typeof schema>;
+const schemaUser = z.object({
+    name: z.string().min(2, "Name is too short"),
+    address: z.string().min(5, "Address is too short"),
+    notes: z.string().optional(),
+});
+
+type FormData = z.infer<typeof schemaGuest>;
 
 const inputClass = "w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60";
 
@@ -28,7 +34,7 @@ export const Checkout = () => {
     const [error, setError] = useState<string | null>(null);
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(user ? schemaUser : schemaGuest),
     });
 
     const onSubmit = async (data: FormData) => {
@@ -39,7 +45,7 @@ export const Checkout = () => {
             if (user) {
                 await addDoc(collection(db, "users", user.uid, "orders"), {
                     name: data.name,
-                    email: data.email,
+                    email: user.email,
                     address: data.address,
                     notes: data.notes ?? "",
                     items: orderItems,
@@ -91,11 +97,13 @@ export const Checkout = () => {
                     <input className={inputClass} {...register("name")} />
                     {errors.name && <p className="text-sm text-red-300 mt-1">{errors.name.message}</p>}
                 </div>
-                <div>
-                    <label className="block text-sm mb-1 text-white/80">Email*</label>
-                    <input className={inputClass} {...register("email")} />
-                    {errors.email && <p className="text-sm text-red-300 mt-1">{errors.email.message}</p>}
-                </div>
+                {!user && (
+                    <div>
+                        <label className="block text-sm mb-1 text-white/80">Email*</label>
+                        <input className={inputClass} {...register("email")} />
+                        {errors.email && <p className="text-sm text-red-300 mt-1">{errors.email.message}</p>}
+                    </div>
+                )}
                 <div>
                     <label className="block text-sm mb-1 text-white/80">Address*</label>
                     <input className={inputClass} {...register("address")} />

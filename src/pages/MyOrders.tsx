@@ -1,12 +1,12 @@
 ﻿import {useEffect, useState} from "react";
-import {collection, getDocs, orderBy, query} from "firebase/firestore";
+import {collection, getDocs, orderBy, query, type Timestamp} from "firebase/firestore";
 import {db} from "../../firebaseConfig";
 import {useAuthStore} from "../store/authStore/authStore";
 
 interface Order {
     id: string;
     total: number;
-    createdAt?: string;
+    createdAt?: Timestamp;
     items: { title: string; price: number }[];
 }
 
@@ -67,7 +67,7 @@ export const MyOrders = () => {
                             <h2 className="font-semibold">Order #{order.id}</h2>
                             <p className="text-sm text-white/70">
                                 {order.createdAt
-                                    ? new Date(order.createdAt).toLocaleString()
+                                    ? order.createdAt.toDate().toLocaleString("pl-PL")
                                     : "In progress"}
                             </p>
                         </div>
