@@ -44,6 +44,28 @@ describe('cart store', () => {
         expect(useCart.getState().items[0]?.qty).toBe(3);
     });
 
+    it('sets quantity of an existing item', () => {
+        const { add, setQty } = useCart.getState();
+
+        add(baseProduct, 3);
+        setQty(baseProduct.id, 10);
+
+        expect(useCart.getState().items[0]?.qty).toBe(10);
+    });
+
+    it('clears all items from the cart', () => {
+        const { add, clear } = useCart.getState();
+        const other: Product = { ...baseProduct, id: 2, title: 'Phone', price: 500 };
+
+        add(baseProduct);
+        add(other);
+        clear();
+
+        expect(useCart.getState().items).toHaveLength(0);
+        expect(useCart.getState().totalItems()).toBe(0);
+        expect(useCart.getState().totalPrice()).toBe(0);
+    });
+
     it('removes items and calculates totals', () => {
         const { add, remove, totalItems, totalPrice } = useCart.getState();
         const otherProduct: Product = { ...baseProduct, id: 2, title: 'Phone', price: 1500 };
