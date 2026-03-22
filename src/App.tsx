@@ -11,6 +11,7 @@ import {Register} from "./pages/Register.tsx";
 import {ForgotPassword} from "./pages/ForgotPassword.tsx";
 import {MyOrders} from "./pages/MyOrders.tsx";
 import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute.tsx";
+import {Analytics} from "@vercel/analytics/react";
 
 export default function App() {
     useEffect(() => {
@@ -45,6 +46,8 @@ export default function App() {
                     React Store Demo - FakeStore API
                 </div>
             </footer>
+
+            <Analytics />
         </div>
     );
 }
