@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import { useCart } from "../store/cart/cart.ts";
 import { formatPrice } from "../utils/format.ts";
 import { useForm } from "react-hook-form";
@@ -6,9 +8,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore/authStore.ts";
-import { db } from "../../firebaseConfig.ts";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { CheckCircle } from "lucide-react";
+import { PaymentForm } from "./PaymentForm.tsx";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const schema = z.object({
     name: z.string().min(2, "Name is too short"),
@@ -22,10 +25,12 @@ type FormData = z.infer<typeof schema>;
 const inputClass = "w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60";
 
 export const Checkout = () => {
-    const { items, totalPrice, clear } = useCart();
+    const { items, totalPrice } = useCart();
     const { user } = useAuthStore();
     const [placed, setPlaced] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [clientSecret, setClientSecret] = useState<string | null>(null);
+    const [shippingData, setShippingData] = useState<FormData | null>(null);
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -33,26 +38,21 @@ export const Checkout = () => {
     });
 
     const onSubmit = async (data: FormData) => {
-        const total = totalPrice();
-        const orderItems = items.map(({ title, price, qty }) => ({ title, price, qty }));
-
         try {
-            if (user) {
-                await addDoc(collection(db, "users", user.uid, "orders"), {
-                    name: data.name,
-                    email: user.email,
-                    address: data.address,
-                    notes: data.notes ?? "",
-                    items: orderItems,
-                    total,
-                    createdAt: serverTimestamp(),
-                });
-            }
-            clear();
-            setPlaced(true);
+            const res = await fetch("/api/create-payment-intent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: totalPrice() }),
+            });
+
+            if (!res.ok) throw new Error("Failed to create payment intent");
+
+            const { clientSecret } = await res.json();
+            setClientSecret(clientSecret);
+            setShippingData(data);
         } catch (e) {
             console.error(e);
-            setError("Failed to place order. Please try again.");
+            setError("Failed to initialize payment. Please try again.");
         }
     };
 
@@ -78,6 +78,17 @@ export const Checkout = () => {
 
     if (items.length === 0) {
         return <div className="py-10 text-center text-white/70">Your cart is empty.</div>;
+    }
+
+    if (clientSecret && shippingData) {
+        return (
+            <Elements stripe={stripePromise} options={{ clientSecret }}>
+                <PaymentForm
+                    shippingData={shippingData}
+                    onSuccess={() => setPlaced(true)}
+                />
+            </Elements>
+        );
     }
 
     return (
