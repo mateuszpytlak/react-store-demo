@@ -84,15 +84,49 @@ export const Checkout = () => {
         return (
             <Elements stripe={stripePromise} options={{
                 clientSecret,
+                fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" }],
                 appearance: {
                     theme: "night",
                     variables: {
-                        colorPrimary: "#a855f7",
-                        colorBackground: "#ffffff0d",
+                        colorPrimary: "#7c3aed",
+                        colorBackground: "#0f172a",
                         colorText: "#ffffff",
+                        colorTextSecondary: "rgba(255,255,255,0.6)",
+                        colorTextPlaceholder: "rgba(255,255,255,0.3)",
                         colorDanger: "#fca5a5",
-                        borderRadius: "16px",
-                        fontFamily: "inherit",
+                        borderRadius: "1rem",
+                        fontFamily: "'Manrope', sans-serif",
+                    },
+                    rules: {
+                        ".Input": {
+                            backgroundColor: "rgba(255,255,255,0.05)",
+                            border: "1px solid rgba(255,255,255,0.1)",
+                            color: "#ffffff",
+                            boxShadow: "none",
+                        },
+                        ".Input:focus": {
+                            border: "1px solid rgba(124,58,237,0.6)",
+                            boxShadow: "0 0 0 3px rgba(124,58,237,0.25)",
+                        },
+                        ".Label": {
+                            color: "rgba(255,255,255,0.8)",
+                            fontSize: "0.875rem",
+                        },
+                        ".Tab": {
+                            backgroundColor: "rgba(255,255,255,0.05)",
+                            border: "1px solid rgba(255,255,255,0.1)",
+                            color: "rgba(255,255,255,0.7)",
+                        },
+                        ".Tab:hover": {
+                            backgroundColor: "rgba(255,255,255,0.08)",
+                            color: "#ffffff",
+                        },
+                        ".Tab--selected": {
+                            backgroundColor: "rgba(124,58,237,0.15)",
+                            border: "1px solid rgba(124,58,237,0.5)",
+                            color: "#ffffff",
+                            boxShadow: "0 0 0 2px rgba(124,58,237,0.3)",
+                        },
                     },
                 },
             }}>
