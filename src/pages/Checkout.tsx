@@ -127,6 +127,18 @@ export const Checkout = () => {
                             color: "#ffffff",
                             boxShadow: "0 0 0 2px rgba(124,58,237,0.3)",
                         },
+                        ".TabLabel": {
+                            color: "rgba(255,255,255,0.7)",
+                        },
+                        ".TabLabel--selected": {
+                            color: "#ffffff",
+                        },
+                        ".TermsText": {
+                            color: "rgba(255,255,255,0.4)",
+                        },
+                        ".TermsText a": {
+                            color: "rgba(255,255,255,0.4)",
+                        },
                     },
                 },
             }}>
