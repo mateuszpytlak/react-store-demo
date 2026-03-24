@@ -4,6 +4,7 @@ import { useCart } from "../store/cart/cart";
 import { useAuthStore } from "../store/authStore/authStore";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { formatPrice } from "../utils/format";
 
 type ShippingData = {
     name: string,
@@ -71,11 +72,15 @@ export const PaymentForm = ({ shippingData, onSuccess }: Props) => {
     };
 
     return (
-        <div>
+        <div className="card glass p-5 space-y-4 floating max-w-xl mx-auto">
+            <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/60">Step 2</p>
+                <h2 className="text-xl font-semibold text-white">Payment</h2>
+            </div>
             <PaymentElement />
             {error && <p className="text-sm text-red-300 mt-2">{error}</p>}
-            <button onClick={handlePay} disabled={isProcessing}>
-                {isProcessing ? "Processing..." : "Pay"}
+            <button onClick={handlePay} disabled={isProcessing} className="btn btn-primary w-full">
+                {isProcessing ? "Processing..." : `Pay ${formatPrice(totalPrice())}`}
             </button>
         </div>
     )

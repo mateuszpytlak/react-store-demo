@@ -82,7 +82,20 @@ export const Checkout = () => {
 
     if (clientSecret && shippingData) {
         return (
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <Elements stripe={stripePromise} options={{
+                clientSecret,
+                appearance: {
+                    theme: "night",
+                    variables: {
+                        colorPrimary: "#a855f7",
+                        colorBackground: "#ffffff0d",
+                        colorText: "#ffffff",
+                        colorDanger: "#fca5a5",
+                        borderRadius: "16px",
+                        fontFamily: "inherit",
+                    },
+                },
+            }}>
                 <PaymentForm
                     shippingData={shippingData}
                     onSuccess={() => setPlaced(true)}
