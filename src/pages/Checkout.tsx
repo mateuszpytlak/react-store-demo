@@ -88,7 +88,7 @@ export const Checkout = () => {
                 appearance: {
                     theme: "night",
                     variables: {
-                        colorPrimary: "#7c3aed",
+                        colorPrimary: "#ffffff",
                         colorBackground: "#0f172a",
                         colorText: "#ffffff",
                         colorTextSecondary: "rgba(255,255,255,0.6)",
