@@ -1,4 +1,4 @@
-﻿import {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchProductById} from "../api/products.ts";
 import {useParams} from "react-router-dom";
 import type {Product} from "../types.ts";
@@ -31,55 +31,76 @@ export const ProductDetails = () => {
         run();
     }, [id])
 
-    if (loading) return <div className="py-10 text-white/80">Loading product...</div>;
+    if (loading) return (
+        <div className="py-10 font-mono text-xs text-[#555]">loading...</div>
+    );
     if (error || !product) return (
-        <div className="container py-10 text-red-300">
-            {error ?? "Product not found"}
+        <div className="border border-red-900/30 px-4 py-3 font-mono text-xs text-red-400">
+            error: {error ?? "product not found"}
         </div>
-    )
+    );
 
     return (
-        <div className="grid md:grid-cols-[1.1fr_1fr] gap-10">
-            <div className="card glass p-6 relative overflow-hidden floating">
-                <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-purple-500/20 blur-3xl" aria-hidden />
-                <div className="absolute -bottom-12 -left-10 w-56 h-56 rounded-full bg-indigo-400/15 blur-3xl" aria-hidden />
-                <div className="flex justify-between items-center mb-3 relative z-[1]">
+        <div className="grid md:grid-cols-[1fr_1fr] border border-[#1a1a1a]">
+            {/* ── Image panel ────────────────────────────────────── */}
+            <div className="bg-[#111] p-6 flex flex-col gap-4 border-b md:border-b-0 md:border-r border-[#1a1a1a]">
+                <div className="flex justify-between items-center">
                     <span className="chip capitalize">{product.category}</span>
-                    {product.rating &&
-                        <div className="rounded-full bg-white/10 border border-white/10 px-3 py-1 text-xs text-white flex items-center gap-2">
-                            <span>Rating</span>
-                            <strong>{product.rating.rate}</strong>
-                            <span className="text-white/60">({product.rating.count})</span>
-                        </div>
-                    }
-                </div>
-                <div className="aspect-square rounded-3xl bg-white/5 border border-white/10 grid place-items-center relative z-[1]">
-                    <img src={product.image} alt={product.title} className="object-contain max-h-[440px] drop-shadow-2xl"/>
-                </div>
-            </div>
-            <div className="space-y-5 card glass p-6 floating">
-                <h1 className="text-3xl font-bold text-white leading-tight">{product.title}</h1>
-                <p className="muted leading-relaxed">{product.description}</p>
-                <div className="flex items-center gap-4 flex-wrap">
-                    <div className="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
-                        <p className="text-xs uppercase text-white/60">Category</p>
-                        <p className="text-white font-semibold capitalize">{product.category}</p>
-                    </div>
                     {product.rating && (
-                        <div className="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
-                            <p className="text-xs uppercase text-white/60">Review count</p>
-                            <p className="text-white font-semibold">{product.rating.count}</p>
+                        <div className="font-mono text-[10px] text-[#555] border border-[#1e1e1e] px-2 py-1">
+                            ★ {product.rating.rate}
+                            <span className="text-[#444] ml-1">({product.rating.count})</span>
                         </div>
                     )}
                 </div>
-                <div className="flex items-center justify-between pt-2">
-                    <div>
-                        <p className="text-sm uppercase text-white/60">Price</p>
-                        <p className="text-3xl font-bold text-white">{formatPrice(product.price)}</p>
+                <div className="aspect-square bg-[#0d0d0d] border border-[#171717] grid place-items-center">
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                        className="object-contain max-h-[380px] p-8"
+                    />
+                </div>
+            </div>
+
+            {/* ── Info panel ─────────────────────────────────────── */}
+            <div className="bg-[#111] p-6 flex flex-col gap-5">
+                <div>
+                    <p className="font-mono text-[10px] text-[#555] uppercase tracking-widest mb-2">
+                        product detail
+                    </p>
+                    <h1 className="text-2xl font-bold text-white leading-tight">{product.title}</h1>
+                </div>
+
+                <p className="text-[#555] text-sm leading-relaxed">{product.description}</p>
+
+                <div className="flex items-center gap-3 flex-wrap">
+                    <div className="border border-[#1e1e1e] px-3 py-2">
+                        <p className="font-mono text-[10px] text-[#555] uppercase">category</p>
+                        <p className="text-sm text-[#aaa] font-medium capitalize">{product.category}</p>
                     </div>
-                    <button className="btn btn-primary" onClick={() => add(product)}>Add to cart</button>
+                    {product.rating && (
+                        <div className="border border-[#1e1e1e] px-3 py-2">
+                            <p className="font-mono text-[10px] text-[#555] uppercase">reviews</p>
+                            <p className="text-sm text-[#aaa] font-medium">{product.rating.count}</p>
+                        </div>
+                    )}
+                </div>
+
+                <div className="flex items-center justify-between pt-3 mt-auto border-t border-[#1a1a1a]">
+                    <div>
+                        <p className="font-mono text-[10px] text-[#555] uppercase mb-0.5">price</p>
+                        <p className="font-mono text-3xl font-bold text-white">
+                            {formatPrice(product.price)}
+                        </p>
+                    </div>
+                    <button
+                        className="btn btn-primary font-mono text-xs px-5"
+                        onClick={() => add(product)}
+                    >
+                        + add to cart
+                    </button>
                 </div>
             </div>
         </div>
-    )
+    );
 }

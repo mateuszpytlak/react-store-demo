@@ -1,4 +1,4 @@
-﻿import {useCart} from "../store/cart/cart.ts";
+import {useCart} from "../store/cart/cart.ts";
 import {Link} from "react-router-dom";
 import {formatPrice} from "../utils/format.ts";
 
@@ -7,32 +7,51 @@ export const Cart = () => {
 
     if (items.length === 0) {
         return (
-            <div className="text-center py-16 text-white">
-                <p className="mb-4 text-white/70">Your cart is empty.</p>
-                <Link to="/products" className="btn btn-primary">Browse products</Link>
+            <div className="border border-[#1e1e1e] py-16 px-6 flex flex-col items-center gap-5">
+                <p className="font-mono text-xs text-[#555]">// cart is empty</p>
+                <Link to="/products" className="btn btn-primary font-mono text-xs">
+                    browse products →
+                </Link>
             </div>
         );
     }
 
     return (
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
-            <div className="card glass p-5 floating">
-                <div className="flex items-center justify-between mb-4">
+        <div className="grid lg:grid-cols-[2fr_1fr] border border-[#1e1e1e]">
+            {/* ── Items ──────────────────────────────────────────── */}
+            <div className="flex flex-col">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e1e1e]">
                     <div>
-                        <p className="text-xs uppercase tracking-[0.2em] text-white/60">Cart</p>
-                        <h2 className="text-xl font-semibold text-white">Your items</h2>
+                        <p className="font-mono text-[10px] text-[#555] uppercase tracking-wider">cart</p>
+                        <h2 className="text-base font-bold text-white leading-tight">Your items</h2>
                     </div>
-                    <button className="btn text-white" onClick={clear}>Clear</button>
+                    <button
+                        className="btn font-mono text-xs hover:text-red-400 hover:border-red-900/50"
+                        onClick={clear}
+                    >
+                        clear all
+                    </button>
                 </div>
-                <ul className="divide-y divide-white/10">
-                    {items.map((item) =>
-                        <li key={item.id} className="py-4 flex items-center gap-4">
-                            <img src={item.image} alt={item.title} className="w-16 h-16 object-contain rounded-xl bg-white/5 p-2"/>
-                            <div className="flex-1 text-white">
-                                <div className="font-semibold line-clamp-1">{item.title}</div>
-                                <div className="text-sm text-white/60">{formatPrice(item.price)}</div>
+
+                <ul className="divide-y divide-[#1a1a1a]">
+                    {items.map((item) => (
+                        <li key={item.id} className="flex items-center gap-4 px-5 py-4">
+                            <div className="w-14 h-14 bg-[#0d0d0d] border border-[#1a1a1a] flex items-center justify-center shrink-0">
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-10 h-10 object-contain"
+                                />
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-[#ccc] line-clamp-1">
+                                    {item.title}
+                                </p>
+                                <p className="font-mono text-xs text-[#666] mt-0.5">
+                                    {formatPrice(item.price)}
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
                                 <div className="qty-control">
                                     <button
                                         type="button"
@@ -58,23 +77,49 @@ export const Cart = () => {
                                         <span className="qty-symbol">+</span>
                                     </button>
                                 </div>
-                                <button className="btn" onClick={() => remove(item.id)}>Remove</button>
+                                <button
+                                    className="btn font-mono text-xs hover:text-red-400 hover:border-red-900/50"
+                                    onClick={() => remove(item.id)}
+                                >
+                                    rm
+                                </button>
                             </div>
                         </li>
-                    )}
+                    ))}
                 </ul>
-                <div className="flex justify-between items-center pt-4 text-white">
-                    <div className="text-lg font-semibold">Total: {formatPrice(totalPrice())}</div>
+
+                <div className="flex justify-end px-5 py-4 border-t border-[#1e1e1e] mt-auto">
+                    <p className="font-mono text-sm text-[#666]">
+                        total:{" "}
+                        <span className="text-white font-bold text-base">
+                            {formatPrice(totalPrice())}
+                        </span>
+                    </p>
                 </div>
             </div>
 
-            <aside className="card glass p-5 h-fit floating">
-                <h3 className="font-semibold mb-3 text-white">Summary</h3>
-                <div className="flex justify-between mb-4 text-white/80">
-                    <span>Subtotal</span>
-                    <span>{formatPrice(totalPrice())}</span>
+            {/* ── Summary sidebar ────────────────────────────────── */}
+            <aside className="border-t lg:border-t-0 lg:border-l border-[#1e1e1e] p-5 flex flex-col gap-5">
+                <p className="font-mono text-[10px] text-[#555] uppercase tracking-wider">
+                    // order summary
+                </p>
+                <div className="space-y-3 text-sm font-mono">
+                    <div className="flex justify-between text-[#666]">
+                        <span>subtotal</span>
+                        <span>{formatPrice(totalPrice())}</span>
+                    </div>
+                    <div className="flex justify-between text-[#666]">
+                        <span>shipping</span>
+                        <span className="text-[#00ff88]">free</span>
+                    </div>
+                    <div className="border-t border-[#1e1e1e] pt-3 flex justify-between">
+                        <span className="text-[#888]">total</span>
+                        <span className="font-bold text-white">{formatPrice(totalPrice())}</span>
+                    </div>
                 </div>
-                <Link to="/checkout" className="btn btn-primary w-full">Proceed to checkout</Link>
+                <Link to="/checkout" className="btn btn-primary w-full font-mono text-xs mt-auto">
+                    checkout →
+                </Link>
             </aside>
         </div>
     );

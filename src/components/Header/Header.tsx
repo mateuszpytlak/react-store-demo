@@ -1,5 +1,5 @@
 import {Link, NavLink, useNavigate} from "react-router-dom";
-import {ShoppingCart, UserRound, LogOut, Package, Sparkle} from "lucide-react";
+import {ShoppingCart, UserRound, LogOut, Package, Terminal} from "lucide-react";
 import {useCart} from "../../store/cart/cart";
 import {useAuthStore} from "../../store/authStore/authStore";
 import {logoutUser} from "../../services/auth";
@@ -22,33 +22,34 @@ export const Header = () => {
     };
 
     const navLinkClass = ({isActive}: { isActive: boolean }) =>
-        `px-3 py-2 rounded-full text-sm font-semibold transition ${
-            isActive ? "bg-white/15 text-white shadow-inner" : "text-white/70 hover:text-white"
+        `px-2 py-1 text-sm font-mono transition-colors ${
+            isActive ? "text-[#00ff88]" : "text-[#666] hover:text-[#d4d4d4]"
         }`;
 
     return (
-        <header className="sticky top-0 z-20 backdrop-blur bg-black/30 border-b border-white/10">
-            <div className="container flex items-center justify-between py-4">
-                <Link to="/products" className="inline-flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 text-white shadow-lg shadow-purple-500/30">
-                        <Sparkle className="w-5 h-5"/>
+        <header className="sticky top-0 z-20 bg-[#0a0a0a]/95 border-b border-[#1a1a1a] backdrop-blur-sm">
+            <div className="container flex items-center justify-between py-3">
+                <Link to="/products" className="inline-flex items-center gap-2.5 group">
+                    <span className="flex h-8 w-8 items-center justify-center border border-[#1e1e1e] bg-[#111] text-[#00ff88] group-hover:border-[#00ff88]/40 transition-colors duration-200">
+                        <Terminal className="w-4 h-4"/>
                     </span>
                     <div>
-                        <p className="text-xs uppercase tracking-[0.2em] text-white/60">React Store</p>
-                        <p className="text-lg font-bold text-white leading-tight">Premium Collection</p>
+                        <p className="font-mono text-[10px] text-[#555] leading-none">~/store</p>
+                        <p className="text-sm font-bold text-white leading-tight">dev.shop</p>
                     </div>
                 </Link>
 
-                <nav className="flex items-center gap-3 text-sm">
+                <nav className="flex items-center gap-1">
                     <NavLink to="/products" className={navLinkClass}>
-                        Products
+                        products
                     </NavLink>
-                    <NavLink to="/cart" className="relative flex items-center rounded-full px-3 py-2 text-white/80 hover:text-white transition">
-                        <ShoppingCart className="w-5 h-5"/>
+                    <NavLink
+                        to="/cart"
+                        className="relative flex items-center gap-1.5 px-2 py-1 text-[#666] hover:text-[#d4d4d4] transition-colors"
+                    >
+                        <ShoppingCart className="w-4 h-4"/>
                         {cartItemsCount > 0 && (
-                            <span
-                                className="absolute -top-2 -right-1 flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 text-white shadow-lg"
-                            >
+                            <span className="flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-mono font-bold bg-[#00ff88] text-[#050505]">
                                 {cartItemsCount}
                             </span>
                         )}
@@ -57,30 +58,29 @@ export const Header = () => {
                         <div className="relative" ref={menuRef}>
                             <button
                                 onClick={() => setOpen((prev) => !prev)}
-                                className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/10 text-white hover:bg-white/20 transition shadow-md"
+                                className="flex items-center justify-center w-8 h-8 border border-[#222] text-[#666] hover:border-[#444] hover:text-[#d4d4d4] transition-colors"
                                 title="My account"
                             >
                                 <UserRound className="w-4 h-4"/>
                             </button>
                             {open && (
-                                <div
-                                    className="absolute right-0 mt-2 w-44 bg-[#0f172a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden text-sm animate-fade-in glass">
+                                <div className="absolute right-0 mt-1 w-40 bg-[#111] border border-[#222] text-sm animate-fade-in z-30">
                                     <button
                                         onClick={() => {
                                             navigate("/account");
                                             setOpen(false);
                                         }}
-                                        className="w-full flex items-center gap-2 px-4 py-3 hover:bg-white/5 text-white/90"
+                                        className="w-full flex items-center gap-2 px-3 py-2.5 text-[#888] hover:text-white hover:bg-[#1a1a1a] transition-colors font-mono text-xs"
                                     >
-                                        <Package className="w-4 h-4 text-white/70"/>
-                                        My Orders
+                                        <Package className="w-3.5 h-3.5"/>
+                                        my orders
                                     </button>
                                     <button
                                         onClick={handleLogout}
-                                        className="w-full flex items-center gap-2 px-4 py-3 text-red-300 hover:bg-red-900/30"
+                                        className="w-full flex items-center gap-2 px-3 py-2.5 text-red-400/60 hover:text-red-300 hover:bg-[#1a1a1a] transition-colors font-mono text-xs"
                                     >
-                                        <LogOut className="w-4 h-4"/>
-                                        Logout
+                                        <LogOut className="w-3.5 h-3.5"/>
+                                        logout
                                     </button>
                                 </div>
                             )}
@@ -88,7 +88,7 @@ export const Header = () => {
                     ) : (
                         <NavLink
                             to="/login"
-                            className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 text-white shadow-lg shadow-purple-500/30 transition hover:opacity-90"
+                            className="flex items-center justify-center w-8 h-8 border border-[#222] text-[#666] hover:border-[#00ff88]/40 hover:text-[#00ff88] transition-colors"
                             title="Login"
                         >
                             <UserRound className="w-4 h-4"/>
