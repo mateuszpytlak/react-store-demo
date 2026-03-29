@@ -18,101 +18,162 @@ export const Products = () => {
     }, [fetchAll]);
 
     if (error) return (
-        <div className="border border-red-900/30 px-4 py-3 font-mono text-xs text-red-400">
-            error: {error}
+        <div className="min-h-screen px-6 py-8" style={{background: "var(--bg)"}}>
+            <div
+                className="max-w-6xl mx-auto px-4 py-3 text-sm font-medium"
+                style={{
+                    border: "1px solid rgba(255,80,80,0.25)",
+                    color: "#FF7070",
+                    background: "rgba(255,80,80,0.05)",
+                    borderRadius: "4px",
+                }}
+            >
+                {error}
+            </div>
         </div>
     );
 
     return (
-        <section className="space-y-0">
-            {/* ── Hero ───────────────────────────────────────────── */}
-            <div className="border-b border-[#1a1a1a] pb-10 mb-10">
-                <p className="font-mono text-xs text-[#555] mb-4">
-                    <span className="text-[#555]">$</span> whoami
-                </p>
-                <p className="font-mono text-sm mb-3">
-                    <span className="text-[#555]">// </span>
-                    <span className="text-[#00ff88]">mateusz</span>
-                    <span className="text-[#555]"> · frontend developer</span>
-                </p>
-                <h1 className="fancy-heading mb-4">
-                    Sharp tools.<br/>
-                    Built to ship.<span className="cursor-blink text-[#00ff88]">_</span>
-                </h1>
-                <p className="text-[#777] text-sm max-w-md leading-relaxed mb-6">
-                    A demo storefront powered by the FakeStore API. React, Tailwind, Zustand,
-                    Firebase, Stripe.
-                </p>
-                <div className="flex items-center gap-6 flex-wrap">
-                    <a href="#catalog" className="btn btn-primary font-mono text-xs px-4">
-                        browse catalog →
-                    </a>
-                    {!loading && (
-                        <div className="flex items-center gap-4 font-mono text-xs text-[#555]">
-                            <span>
-                                <span className="text-[#00ff88]">{products.length}</span> items
-                            </span>
-                            <span className="text-[#1e1e1e]">/</span>
-                            <span>
-                                <span className="text-[#00ff88]">{categories.length}</span> categories
-                            </span>
+        <div className="min-h-screen" style={{background: "var(--bg)", color: "var(--text)"}}>
+
+            {/* ── Hero ─────────────────────────────────────────────── */}
+            <section
+                className="max-w-6xl mx-auto px-6 pt-16 pb-14"
+                style={{borderBottom: "1px solid var(--border)"}}
+            >
+                <span className="tag mb-8 inline-block">{new Date().getFullYear()} Collection</span>
+
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
+                    <h1 className="fancy-heading">
+                        Objects<br />
+                        Worth<br />
+                        Wanting.
+                    </h1>
+
+                    <div className="md:max-w-[300px] md:pb-1 flex flex-col gap-8 shrink-0">
+                        <p className="text-[0.9375rem] leading-relaxed" style={{color: "var(--text-muted)"}}>
+                            A precision selection for those who know the difference between good and exceptional.
+                        </p>
+                        <div className="flex items-center gap-6 flex-wrap">
+                            <a href="#catalog" className="btn btn-primary">
+                                Explore All
+                            </a>
+                            {!loading && (
+                                <p className="text-[0.8125rem]" style={{color: "var(--text-subtle)"}}>
+                                    <span style={{color: "var(--accent)", fontWeight: 600}}>{products.length}</span> objects
+                                    {" · "}
+                                    <span style={{color: "var(--accent)", fontWeight: 600}}>{categories.length}</span> categories
+                                </p>
+                            )}
                         </div>
-                    )}
-                </div>
-            </div>
-
-            {/* ── Filter bar ─────────────────────────────────────── */}
-            <div id="catalog" className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between border-b border-[#1a1a1a] pb-6 mb-0">
-                <p className="font-mono text-xs text-[#555] shrink-0">
-                    <span className="text-[#00ff88]">{filteredProducts.length}</span> results
-                </p>
-                <div className="flex flex-wrap gap-2">
-                    <input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder="search..."
-                        className="bg-[#0d0d0d] border border-[#222] px-3 py-[0.58rem] text-sm text-[#d4d4d4] placeholder:text-[#555] focus:outline-none focus:border-[#00ff88] focus:shadow-[0_0_0_1px_rgba(0,255,136,0.12)] transition-colors font-mono rounded-none"
-                    />
-                    <div className="select-shell">
-                        <select
-                            value={selectedCategory}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
-                            className="select-field"
-                        >
-                            <option value="all">all categories</option>
-                            {categories.map((c) => (
-                                <option key={c} value={c}>{c}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="select-shell">
-                        <select
-                            value={sort}
-                            onChange={(e) => setSort(e.target.value)}
-                            className="select-field"
-                        >
-                            <option value="relevance">sort: relevance</option>
-                            <option value="price-asc">price: low → high</option>
-                            <option value="price-desc">price: high → low</option>
-                            <option value="title-asc">title: A → Z</option>
-                            <option value="title-desc">title: Z → A</option>
-                        </select>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            {/* ── Product grid ───────────────────────────────────── */}
-            {loading ? (
-                <div className="border border-[#1a1a1a] border-t-0 px-4 py-8">
-                    <p className="font-mono text-xs text-[#555]">loading...</p>
+            {/* ── Filter bar ───────────────────────────────────────── */}
+            <section
+                id="catalog"
+                className="max-w-6xl mx-auto px-6 py-4"
+                style={{borderBottom: "1px solid var(--border)"}}
+            >
+                <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+                    <p className="text-[0.8125rem] shrink-0" style={{color: "var(--text-subtle)"}}>
+                        <span style={{color: "var(--text)", fontWeight: 500}}>{filteredProducts.length}</span> results
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                        <input
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            placeholder="Search objects…"
+                            className="bg-transparent px-3.5 py-2 text-[0.8125rem] focus:outline-none transition-all duration-200 min-w-[180px]"
+                            style={{
+                                border: "1px solid var(--border)",
+                                color: "var(--text)",
+                                borderRadius: "3px",
+                            }}
+                            onFocus={e => (e.target as HTMLInputElement).style.borderColor = "rgba(155,127,255,0.4)"}
+                            onBlur={e => (e.target as HTMLInputElement).style.borderColor = "var(--border)"}
+                        />
+
+                        <div className="relative inline-flex items-center min-w-[148px]">
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                className="appearance-none w-full px-3.5 py-2 pr-8 text-[0.8125rem] focus:outline-none transition-all duration-200 cursor-pointer"
+                                style={{
+                                    border: "1px solid var(--border)",
+                                    color: "var(--text-muted)",
+                                    background: "var(--surface)",
+                                    borderRadius: "3px",
+                                }}
+                                onFocus={e => (e.target as HTMLSelectElement).style.borderColor = "rgba(155,127,255,0.4)"}
+                                onBlur={e => (e.target as HTMLSelectElement).style.borderColor = "var(--border)"}
+                            >
+                                <option value="all" style={{background: "var(--surface-raised)"}}>All categories</option>
+                                {categories.map((c) => (
+                                    <option key={c} value={c} style={{background: "var(--surface-raised)"}}>{c}</option>
+                                ))}
+                            </select>
+                            <span className="absolute right-3 pointer-events-none text-[8px] leading-none" style={{color: "var(--text-subtle)"}}>▼</span>
+                        </div>
+
+                        <div className="relative inline-flex items-center min-w-[166px]">
+                            <select
+                                value={sort}
+                                onChange={(e) => setSort(e.target.value)}
+                                className="appearance-none w-full px-3.5 py-2 pr-8 text-[0.8125rem] focus:outline-none transition-all duration-200 cursor-pointer"
+                                style={{
+                                    border: "1px solid var(--border)",
+                                    color: "var(--text-muted)",
+                                    background: "var(--surface)",
+                                    borderRadius: "3px",
+                                }}
+                                onFocus={e => (e.target as HTMLSelectElement).style.borderColor = "rgba(155,127,255,0.4)"}
+                                onBlur={e => (e.target as HTMLSelectElement).style.borderColor = "var(--border)"}
+                            >
+                                <option value="relevance" style={{background: "var(--surface-raised)"}}>Sort: Relevance</option>
+                                <option value="price-asc" style={{background: "var(--surface-raised)"}}>Price: Low → High</option>
+                                <option value="price-desc" style={{background: "var(--surface-raised)"}}>Price: High → Low</option>
+                                <option value="title-asc" style={{background: "var(--surface-raised)"}}>Name: A – Z</option>
+                                <option value="title-desc" style={{background: "var(--surface-raised)"}}>Name: Z – A</option>
+                            </select>
+                            <span className="absolute right-3 pointer-events-none text-[8px] leading-none" style={{color: "var(--text-subtle)"}}>▼</span>
+                        </div>
+                    </div>
                 </div>
-            ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-t border-l border-[#1a1a1a]">
-                    {filteredProducts.map((p) => (
-                        <ProductCard key={p.id} product={p}/>
-                    ))}
-                </div>
-            )}
-        </section>
+            </section>
+
+            {/* ── Product grid ─────────────────────────────────────── */}
+            <section className="max-w-6xl mx-auto px-6 py-12">
+                {loading ? (
+                    <div className="py-32 flex flex-col items-center gap-5">
+                        <div
+                            className="w-7 h-7 rounded-full animate-spin"
+                            style={{
+                                border: "2px solid var(--surface-raised)",
+                                borderTopColor: "var(--accent)",
+                                filter: "drop-shadow(0 0 6px var(--accent-glow))",
+                            }}
+                        />
+                        <p
+                            className="text-[0.75rem] tracking-[0.18em] uppercase"
+                            style={{color: "var(--text-subtle)"}}
+                        >
+                            Loading collection
+                        </p>
+                    </div>
+                ) : (
+                    <div
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px"
+                        style={{background: "var(--border)"}}
+                    >
+                        {filteredProducts.map((p) => (
+                            <ProductCard key={p.id} product={p} />
+                        ))}
+                    </div>
+                )}
+            </section>
+
+        </div>
     );
 };

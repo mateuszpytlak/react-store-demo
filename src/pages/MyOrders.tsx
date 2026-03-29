@@ -1,4 +1,4 @@
-﻿import {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {collection, getDocs, orderBy, query, type Timestamp} from "firebase/firestore";
 import {db} from "../../firebaseConfig";
 import {useAuthStore} from "../store/authStore/authStore";
@@ -39,54 +39,94 @@ export const MyOrders = () => {
         fetchOrders();
     }, [user]);
 
-    if (loading) return <p className="text-center py-10 text-white/80">Loading orders...</p>;
+    if (loading) return (
+        <div className="py-16 flex flex-col items-center gap-4">
+            <div
+                className="w-7 h-7 rounded-full animate-spin"
+                style={{
+                    border: "2px solid var(--surface-raised)",
+                    borderTopColor: "var(--accent)",
+                    filter: "drop-shadow(0 0 6px var(--accent-glow))",
+                }}
+            />
+        </div>
+    );
 
-    if (!orders.length)
-        return (
-            <div className="card glass p-8 text-center floating">
-                <h2 className="text-xl font-semibold mb-2 text-white">No orders yet</h2>
-                <p className="text-white/70">Your latest orders will appear here.</p>
+    if (!orders.length) return (
+        <div className="max-w-6xl mx-auto px-6 py-10">
+            <div
+                className="p-10 text-center max-w-md mx-auto"
+                style={{
+                    background: "var(--surface)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "6px",
+                }}
+            >
+                <h2 className="syne text-2xl font-bold mb-2" style={{color: "var(--text)"}}>No orders yet</h2>
+                <p className="text-sm" style={{color: "var(--text-muted)"}}>Your latest orders will appear here.</p>
             </div>
-        );
+        </div>
+    );
 
     return (
-        <div className="max-w-3xl mx-auto space-y-5">
-            <div className="card glass p-6 floating">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/60">Account</p>
-                <h1 className="text-2xl font-bold text-white">My orders</h1>
-                <p className="text-white/70 mt-2">Purchase history sorted from newest.</p>
-            </div>
+        <div className="max-w-6xl mx-auto px-6 py-10">
+            <div className="max-w-3xl mx-auto space-y-5">
+                <div
+                    className="p-6"
+                    style={{
+                        background: "var(--surface)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "6px",
+                    }}
+                >
+                    <p className="text-[10px] font-medium uppercase tracking-[0.2em] mb-1" style={{color: "var(--text-subtle)"}}>Account</p>
+                    <h1 className="syne text-3xl font-bold" style={{color: "var(--text)"}}>My orders</h1>
+                    <p className="text-sm mt-2" style={{color: "var(--text-muted)"}}>Purchase history sorted from newest.</p>
+                </div>
 
-            <ul className="space-y-4">
-                {orders.map((order) => (
-                    <li
-                        key={order.id}
-                        className="card glass p-5 shadow-xl floating"
-                    >
-                        <div className="flex items-center justify-between mb-2 text-white">
-                            <h2 className="font-semibold">Order #{order.id}</h2>
-                            <p className="text-sm text-white/70">
-                                {order.createdAt
-                                    ? order.createdAt.toDate().toLocaleString("pl-PL")
-                                    : "In progress"}
+                <ul className="space-y-4">
+                    {orders.map((order) => (
+                        <li
+                            key={order.id}
+                            className="p-5"
+                            style={{
+                                background: "var(--surface)",
+                                border: "1px solid var(--border)",
+                                borderRadius: "6px",
+                            }}
+                        >
+                            <div
+                                className="flex items-center justify-between mb-3 pb-3"
+                                style={{borderBottom: "1px solid var(--border)"}}
+                            >
+                                <h2 className="text-sm font-medium" style={{color: "var(--text-muted)"}}>Order #{order.id}</h2>
+                                <p className="text-xs" style={{color: "var(--text-subtle)"}}>
+                                    {order.createdAt
+                                        ? order.createdAt.toDate().toLocaleString("pl-PL")
+                                        : "In progress"}
+                                </p>
+                            </div>
+
+                            <ul className="space-y-1.5">
+                                {order.items.map((item, index) => (
+                                    <li key={index} className="flex justify-between text-sm" style={{color: "var(--text-muted)"}}>
+                                        <span className="line-clamp-1">{item.title}</span>
+                                        <span className="shrink-0 ml-4">{item.price.toFixed(2)} PLN</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <p
+                                className="text-right text-sm mt-3 pt-3"
+                                style={{borderTop: "1px solid var(--border)"}}
+                            >
+                                <span className="mr-2" style={{color: "var(--text-subtle)"}}>Total</span>
+                                <span className="syne text-lg font-bold" style={{color: "var(--accent)"}}>{order.total.toFixed(2)} PLN</span>
                             </p>
-                        </div>
-
-                        <ul className="mt-3 text-sm text-white/80 space-y-1">
-                            {order.items.map((item, index) => (
-                                <li key={index} className="flex justify-between">
-                                    <span>- {item.title}</span>
-                                    <span>{item.price.toFixed(2)} PLN</span>
-                                </li>
-                            ))}
-                        </ul>
-
-                        <p className="text-right font-semibold mt-4 text-white">
-                            Total: {order.total.toFixed(2)} PLN
-                        </p>
-                    </li>
-                ))}
-            </ul>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };

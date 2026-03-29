@@ -23,6 +23,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+const labelClass = "block text-xs font-medium uppercase tracking-widest mb-1.5";
+
 export const Register = () => {
     const { user } = useAuthStore();
     const navigate = useNavigate();
@@ -44,40 +46,53 @@ export const Register = () => {
 
     return (
         <div className="flex items-center justify-center min-h-[80vh]">
-            <div className="w-full max-w-md card glass p-6 floating relative overflow-hidden">
-                <div className="absolute -top-14 -right-10 w-44 h-44 rounded-full bg-purple-500/20 blur-3xl" aria-hidden />
-                <div className="absolute -bottom-10 -left-6 w-36 h-36 rounded-full bg-indigo-400/20 blur-3xl" aria-hidden />
-
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 relative z-1">
-                    <div className="text-center space-y-1">
-                        <p className="text-xs uppercase tracking-[0.2em] text-white/60">Customer area</p>
-                        <h1 className="text-2xl font-semibold text-white">Create account</h1>
+            <div
+                className="w-full max-w-md p-8"
+                style={{
+                    background: "var(--surface)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "6px",
+                }}
+            >
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                    <div className="text-center space-y-1 mb-2">
+                        <p className="text-[10px] font-medium uppercase tracking-[0.2em]" style={{color: "var(--text-subtle)"}}>Customer area</p>
+                        <h1 className="syne text-3xl font-bold" style={{color: "var(--text)"}}>Create account</h1>
                     </div>
 
                     <div>
-                        <input type="email" {...register("email")} placeholder="E-mail" className={inputClass} />
-                        {errors.email && <p className="text-red-300 text-sm mt-1">{errors.email.message}</p>}
+                        <label className={labelClass} style={{color: "var(--text-muted)"}}>Email</label>
+                        <input type="email" {...register("email")} placeholder="your@email.com" className={inputClass} />
+                        {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
                     </div>
 
                     <div>
-                        <input type="password" {...register("password")} placeholder="Password" className={inputClass} />
-                        {errors.password && <p className="text-red-300 text-sm mt-1">{errors.password.message}</p>}
+                        <label className={labelClass} style={{color: "var(--text-muted)"}}>Password</label>
+                        <input type="password" {...register("password")} placeholder="••••••••" className={inputClass} />
+                        {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
                     </div>
 
                     <div>
-                        <input type="password" {...register("confirmPassword")} placeholder="Confirm password" className={inputClass} />
-                        {errors.confirmPassword && <p className="text-red-300 text-sm mt-1">{errors.confirmPassword.message}</p>}
+                        <label className={labelClass} style={{color: "var(--text-muted)"}}>Confirm password</label>
+                        <input type="password" {...register("confirmPassword")} placeholder="••••••••" className={inputClass} />
+                        {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword.message}</p>}
                     </div>
 
-                    {error && <p className="text-red-300 text-sm">{error}</p>}
+                    {error && <p className="text-red-400 text-sm">{error}</p>}
 
                     <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
-                        {isSubmitting ? "Creating account..." : "Create account"}
+                        {isSubmitting ? "Creating account…" : "Create account"}
                     </button>
 
-                    <p className="text-center text-sm text-white/70">
+                    <p className="text-center text-sm" style={{color: "var(--text-muted)"}}>
                         Already have an account?{" "}
-                        <Link to="/login" className="text-white underline font-semibold">
+                        <Link
+                            to="/login"
+                            className="font-medium transition-colors"
+                            style={{color: "var(--accent)"}}
+                            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "var(--text)"}
+                            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "var(--accent)"}
+                        >
                             Sign in
                         </Link>
                     </p>

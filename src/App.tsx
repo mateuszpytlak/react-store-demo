@@ -22,7 +22,7 @@ export default function App() {
         <div className="min-h-screen flex flex-col">
             <Header/>
 
-            <main className="container py-10 grow space-y-10">
+            <main className="grow">
                 <Routes>
                     <Route path="/" element={<Navigate to="/products" replace/>}/>
                     <Route path="/products" element={<Products/>}/>
@@ -36,10 +36,10 @@ export default function App() {
                 </Routes>
             </main>
 
-            <footer className="mt-auto border-t border-[#1a1a1a]">
+            <footer className="mt-auto" style={{borderTop: "1px solid var(--border)"}}>
                 <div className="container py-5 flex items-center justify-between">
-                    <span className="font-mono text-xs text-[#444]">~/store.dev</span>
-                    <span className="text-xs text-[#444]">FakeStore API</span>
+                    <span className="syne text-xs font-bold tracking-[0.2em] uppercase" style={{color: "var(--text-subtle)"}}>NOX</span>
+                    <span className="text-xs" style={{color: "var(--text-subtle)"}}>FakeStore API</span>
                 </div>
             </footer>
 

@@ -7,120 +7,162 @@ export const Cart = () => {
 
     if (items.length === 0) {
         return (
-            <div className="border border-[#1e1e1e] py-16 px-6 flex flex-col items-center gap-5">
-                <p className="font-mono text-xs text-[#555]">// cart is empty</p>
-                <Link to="/products" className="btn btn-primary font-mono text-xs">
-                    browse products →
+            <div
+                className="py-16 px-6 flex flex-col items-center gap-5"
+                style={{borderBottom: "1px solid var(--border)"}}
+            >
+                <p className="text-sm tracking-wide" style={{color: "var(--text-muted)"}}>Your cart is empty</p>
+                <Link to="/products" className="btn btn-primary text-xs">
+                    Browse collection
                 </Link>
             </div>
         );
     }
 
     return (
-        <div className="grid lg:grid-cols-[2fr_1fr] border border-[#1e1e1e]">
-            {/* ── Items ──────────────────────────────────────────── */}
-            <div className="flex flex-col">
-                <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e1e1e]">
-                    <div>
-                        <p className="font-mono text-[10px] text-[#555] uppercase tracking-wider">cart</p>
-                        <h2 className="text-base font-bold text-white leading-tight">Your items</h2>
-                    </div>
-                    <button
-                        className="btn font-mono text-xs hover:text-red-400 hover:border-red-900/50"
-                        onClick={clear}
+        <div className="max-w-6xl mx-auto px-6 py-10">
+            <div
+                className="grid lg:grid-cols-[2fr_1fr]"
+                style={{border: "1px solid var(--border)", borderRadius: "6px", overflow: "hidden"}}
+            >
+                {/* ── Items ──────────────────────────────────────────── */}
+                <div className="flex flex-col">
+                    <div
+                        className="flex items-center justify-between px-5 py-4"
+                        style={{borderBottom: "1px solid var(--border)"}}
                     >
-                        clear all
-                    </button>
-                </div>
+                        <div>
+                            <p className="text-[10px] font-medium uppercase tracking-[0.18em]" style={{color: "var(--text-subtle)"}}>Cart</p>
+                            <h2 className="text-base font-medium leading-tight" style={{color: "var(--text)"}}>Your items</h2>
+                        </div>
+                        <button
+                            className="btn text-xs"
+                            style={{"--hover-color": "rgb(248 113 113)"} as React.CSSProperties}
+                            onClick={clear}
+                            onMouseEnter={e => {
+                                (e.currentTarget as HTMLElement).style.color = "#f87171";
+                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(127,29,29,0.5)";
+                            }}
+                            onMouseLeave={e => {
+                                (e.currentTarget as HTMLElement).style.color = "";
+                                (e.currentTarget as HTMLElement).style.borderColor = "";
+                            }}
+                        >
+                            Clear all
+                        </button>
+                    </div>
 
-                <ul className="divide-y divide-[#1a1a1a]">
-                    {items.map((item) => (
-                        <li key={item.id} className="flex items-center gap-4 px-5 py-4">
-                            <div className="w-14 h-14 bg-[#0d0d0d] border border-[#1a1a1a] flex items-center justify-center shrink-0">
-                                <img
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-10 h-10 object-contain"
-                                />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-[#ccc] line-clamp-1">
-                                    {item.title}
-                                </p>
-                                <p className="font-mono text-xs text-[#666] mt-0.5">
-                                    {formatPrice(item.price)}
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-2 shrink-0">
-                                <div className="qty-control">
-                                    <button
-                                        type="button"
-                                        className="qty-btn"
-                                        aria-label="Decrease quantity"
-                                        onClick={() => setQty(item.id, Math.max(1, item.qty - 1))}
-                                    >
-                                        <span className="qty-symbol">-</span>
-                                    </button>
-                                    <input
-                                        type="number"
-                                        min={1}
-                                        value={item.qty}
-                                        onChange={(e) => setQty(item.id, Math.max(1, Number(e.target.value)))}
-                                        className="qty-input"
+                    <ul className="divide-y" style={{"--tw-divide-opacity": "1"} as React.CSSProperties}>
+                        {items.map((item) => (
+                            <li
+                                key={item.id}
+                                className="flex items-center gap-4 px-5 py-4"
+                                style={{borderBottom: "1px solid var(--border-subtle)"}}
+                            >
+                                <div
+                                    className="w-14 h-14 flex items-center justify-center shrink-0 rounded-[3px]"
+                                    style={{background: "var(--surface-raised)"}}
+                                >
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-10 h-10 object-contain"
                                     />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium line-clamp-1" style={{color: "var(--text-muted)"}}>
+                                        {item.title}
+                                    </p>
+                                    <p className="text-xs mt-0.5" style={{color: "var(--text-subtle)"}}>
+                                        {formatPrice(item.price)}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2 shrink-0">
+                                    <div className="qty-control">
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            aria-label="Decrease quantity"
+                                            onClick={() => setQty(item.id, Math.max(1, item.qty - 1))}
+                                        >
+                                            <span className="qty-symbol">-</span>
+                                        </button>
+                                        <input
+                                            type="number"
+                                            min={1}
+                                            value={item.qty}
+                                            onChange={(e) => setQty(item.id, Math.max(1, Number(e.target.value)))}
+                                            className="qty-input"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            aria-label="Increase quantity"
+                                            onClick={() => setQty(item.id, item.qty + 1)}
+                                        >
+                                            <span className="qty-symbol">+</span>
+                                        </button>
+                                    </div>
                                     <button
-                                        type="button"
-                                        className="qty-btn"
-                                        aria-label="Increase quantity"
-                                        onClick={() => setQty(item.id, item.qty + 1)}
+                                        className="btn text-xs"
+                                        onClick={() => remove(item.id)}
+                                        onMouseEnter={e => {
+                                            (e.currentTarget as HTMLElement).style.color = "#f87171";
+                                            (e.currentTarget as HTMLElement).style.borderColor = "rgba(127,29,29,0.5)";
+                                        }}
+                                        onMouseLeave={e => {
+                                            (e.currentTarget as HTMLElement).style.color = "";
+                                            (e.currentTarget as HTMLElement).style.borderColor = "";
+                                        }}
                                     >
-                                        <span className="qty-symbol">+</span>
+                                        Remove
                                     </button>
                                 </div>
-                                <button
-                                    className="btn font-mono text-xs hover:text-red-400 hover:border-red-900/50"
-                                    onClick={() => remove(item.id)}
-                                >
-                                    rm
-                                </button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                            </li>
+                        ))}
+                    </ul>
 
-                <div className="flex justify-end px-5 py-4 border-t border-[#1e1e1e] mt-auto">
-                    <p className="font-mono text-sm text-[#666]">
-                        total:{" "}
-                        <span className="text-white font-bold text-base">
-                            {formatPrice(totalPrice())}
-                        </span>
-                    </p>
+                    <div
+                        className="flex justify-end px-5 py-4 mt-auto"
+                        style={{borderTop: "1px solid var(--border)"}}
+                    >
+                        <p className="text-sm" style={{color: "var(--text-muted)"}}>
+                            Subtotal:{" "}
+                            <span className="syne text-lg font-semibold ml-1" style={{color: "var(--text)"}}>
+                                {formatPrice(totalPrice())}
+                            </span>
+                        </p>
+                    </div>
                 </div>
+
+                {/* ── Summary sidebar ────────────────────────────────── */}
+                <aside
+                    className="border-t lg:border-t-0 lg:border-l p-5 flex flex-col gap-5"
+                    style={{
+                        background: "var(--surface-raised)",
+                        borderColor: "var(--border)",
+                    }}
+                >
+                    <p className="text-[10px] font-medium uppercase tracking-[0.18em]" style={{color: "var(--text-subtle)"}}>Summary</p>
+                    <div className="space-y-3 text-sm">
+                        <div className="flex justify-between" style={{color: "var(--text-muted)"}}>
+                            <span>Subtotal</span>
+                            <span>{formatPrice(totalPrice())}</span>
+                        </div>
+                        <div className="flex justify-between" style={{color: "var(--text-muted)"}}>
+                            <span>Shipping</span>
+                            <span className="font-medium" style={{color: "var(--accent)"}}>Free</span>
+                        </div>
+                        <div className="pt-3 flex justify-between" style={{borderTop: "1px solid var(--border)"}}>
+                            <span className="font-medium" style={{color: "var(--text)"}}>Total</span>
+                            <span className="syne text-xl font-bold" style={{color: "var(--text)"}}>{formatPrice(totalPrice())}</span>
+                        </div>
+                    </div>
+                    <Link to="/checkout" className="btn btn-primary w-full text-xs mt-auto text-center">
+                        Proceed to checkout
+                    </Link>
+                </aside>
             </div>
-
-            {/* ── Summary sidebar ────────────────────────────────── */}
-            <aside className="border-t lg:border-t-0 lg:border-l border-[#1e1e1e] p-5 flex flex-col gap-5">
-                <p className="font-mono text-[10px] text-[#555] uppercase tracking-wider">
-                    // order summary
-                </p>
-                <div className="space-y-3 text-sm font-mono">
-                    <div className="flex justify-between text-[#666]">
-                        <span>subtotal</span>
-                        <span>{formatPrice(totalPrice())}</span>
-                    </div>
-                    <div className="flex justify-between text-[#666]">
-                        <span>shipping</span>
-                        <span className="text-[#00ff88]">free</span>
-                    </div>
-                    <div className="border-t border-[#1e1e1e] pt-3 flex justify-between">
-                        <span className="text-[#888]">total</span>
-                        <span className="font-bold text-white">{formatPrice(totalPrice())}</span>
-                    </div>
-                </div>
-                <Link to="/checkout" className="btn btn-primary w-full font-mono text-xs mt-auto">
-                    checkout →
-                </Link>
-            </aside>
         </div>
     );
 };

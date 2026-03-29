@@ -32,75 +32,146 @@ export const ProductDetails = () => {
     }, [id])
 
     if (loading) return (
-        <div className="py-10 font-mono text-xs text-[#555]">loading...</div>
+        <div className="py-16 flex flex-col items-center gap-4">
+            <div
+                className="w-7 h-7 rounded-full animate-spin"
+                style={{
+                    border: "2px solid var(--surface-raised)",
+                    borderTopColor: "var(--accent)",
+                    filter: "drop-shadow(0 0 6px var(--accent-glow))",
+                }}
+            />
+        </div>
     );
+
     if (error || !product) return (
-        <div className="border border-red-900/30 px-4 py-3 font-mono text-xs text-red-400">
-            error: {error ?? "product not found"}
+        <div
+            className="mx-6 mt-8 px-4 py-3 text-sm font-medium"
+            style={{
+                border: "1px solid rgba(255,80,80,0.25)",
+                color: "#FF7070",
+                background: "rgba(255,80,80,0.05)",
+                borderRadius: "4px",
+            }}
+        >
+            {error ?? "Product not found"}
         </div>
     );
 
     return (
-        <div className="grid md:grid-cols-[1fr_1fr] border border-[#1a1a1a]">
+        <div className="max-w-6xl mx-auto px-6 py-10">
+        <div
+            className="grid md:grid-cols-[1fr_1fr]"
+            style={{border: "1px solid var(--border)", borderRadius: "6px", overflow: "hidden"}}
+        >
             {/* ── Image panel ────────────────────────────────────── */}
-            <div className="bg-[#111] p-6 flex flex-col gap-4 border-b md:border-b-0 md:border-r border-[#1a1a1a]">
+            <div
+                className="p-6 flex flex-col gap-4 border-b md:border-b-0 md:border-r"
+                style={{
+                    background: "var(--surface-raised)",
+                    borderColor: "var(--border)",
+                }}
+            >
                 <div className="flex justify-between items-center">
                     <span className="chip capitalize">{product.category}</span>
                     {product.rating && (
-                        <div className="font-mono text-[10px] text-[#555] border border-[#1e1e1e] px-2 py-1">
+                        <div
+                            className="text-[11px] px-2.5 py-1 font-medium"
+                            style={{
+                                color: "var(--text-muted)",
+                                border: "1px solid var(--border)",
+                                background: "var(--surface)",
+                                borderRadius: "2px",
+                            }}
+                        >
                             ★ {product.rating.rate}
-                            <span className="text-[#444] ml-1">({product.rating.count})</span>
+                            <span className="ml-1" style={{color: "var(--text-subtle)"}}>({product.rating.count})</span>
                         </div>
                     )}
                 </div>
-                <div className="aspect-square bg-[#0d0d0d] border border-[#171717] grid place-items-center">
+
+                <div
+                    className="aspect-square grid place-items-center"
+                    style={{background: "var(--bg)"}}
+                >
                     <img
                         src={product.image}
                         alt={product.title}
                         className="object-contain max-h-[380px] p-8"
+                        style={{filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.6))"}}
                     />
                 </div>
             </div>
 
             {/* ── Info panel ─────────────────────────────────────── */}
-            <div className="bg-[#111] p-6 flex flex-col gap-5">
+            <div
+                className="p-6 flex flex-col gap-5"
+                style={{background: "var(--surface)"}}
+            >
                 <div>
-                    <p className="font-mono text-[10px] text-[#555] uppercase tracking-widest mb-2">
-                        product detail
+                    <p
+                        className="text-[10px] font-medium uppercase tracking-[0.18em] mb-2"
+                        style={{color: "var(--text-subtle)"}}
+                    >
+                        Product detail
                     </p>
-                    <h1 className="text-2xl font-bold text-white leading-tight">{product.title}</h1>
+                    <h1 className="text-2xl font-semibold leading-tight" style={{color: "var(--text)"}}>
+                        {product.title}
+                    </h1>
                 </div>
 
-                <p className="text-[#555] text-sm leading-relaxed">{product.description}</p>
+                <p className="text-sm leading-relaxed" style={{color: "var(--text-muted)"}}>
+                    {product.description}
+                </p>
 
                 <div className="flex items-center gap-3 flex-wrap">
-                    <div className="border border-[#1e1e1e] px-3 py-2">
-                        <p className="font-mono text-[10px] text-[#555] uppercase">category</p>
-                        <p className="text-sm text-[#aaa] font-medium capitalize">{product.category}</p>
+                    <div
+                        className="px-3 py-2"
+                        style={{border: "1px solid var(--border)", borderRadius: "3px"}}
+                    >
+                        <p className="text-[10px] font-medium uppercase tracking-[0.12em] mb-0.5" style={{color: "var(--text-subtle)"}}>
+                            Category
+                        </p>
+                        <p className="text-sm font-medium capitalize" style={{color: "var(--text-muted)"}}>
+                            {product.category}
+                        </p>
                     </div>
                     {product.rating && (
-                        <div className="border border-[#1e1e1e] px-3 py-2">
-                            <p className="font-mono text-[10px] text-[#555] uppercase">reviews</p>
-                            <p className="text-sm text-[#aaa] font-medium">{product.rating.count}</p>
+                        <div
+                            className="px-3 py-2"
+                            style={{border: "1px solid var(--border)", borderRadius: "3px"}}
+                        >
+                            <p className="text-[10px] font-medium uppercase tracking-[0.12em] mb-0.5" style={{color: "var(--text-subtle)"}}>
+                                Reviews
+                            </p>
+                            <p className="text-sm font-medium" style={{color: "var(--text-muted)"}}>
+                                {product.rating.count}
+                            </p>
                         </div>
                     )}
                 </div>
 
-                <div className="flex items-center justify-between pt-3 mt-auto border-t border-[#1a1a1a]">
+                <div
+                    className="flex items-center justify-between pt-4 mt-auto"
+                    style={{borderTop: "1px solid var(--border)"}}
+                >
                     <div>
-                        <p className="font-mono text-[10px] text-[#555] uppercase mb-0.5">price</p>
-                        <p className="font-mono text-3xl font-bold text-white">
+                        <p className="text-[10px] font-medium uppercase tracking-[0.12em] mb-0.5" style={{color: "var(--text-subtle)"}}>
+                            Price
+                        </p>
+                        <p className="syne text-3xl font-bold tracking-tight" style={{color: "var(--accent)"}}>
                             {formatPrice(product.price)}
                         </p>
                     </div>
                     <button
-                        className="btn btn-primary font-mono text-xs px-5"
+                        className="btn btn-primary text-xs px-6"
                         onClick={() => add(product)}
                     >
-                        + add to cart
+                        + Add to cart
                     </button>
                 </div>
             </div>
+        </div>
         </div>
     );
 }

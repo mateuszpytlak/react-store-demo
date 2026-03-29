@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const inputClass =
-    "w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder:text-white/50 focus:ring-2 focus:ring-purple-500/60 focus:outline-none";
+    "w-full bg-[var(--surface)] border border-[var(--border)] px-4 py-2.5 text-[var(--text)] placeholder:text-[var(--text-subtle)] focus:ring-1 focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:outline-none transition-colors text-sm rounded-[3px]";
 
 export const emailSchema = z.email("Invalid email");
 

@@ -72,17 +72,16 @@ export const PaymentForm = ({ shippingData, onSuccess }: Props) => {
     };
 
     return (
-        <div className="card glass p-5 space-y-4 floating max-w-xl mx-auto">
+        <div className="bg-[#2C2C2A] border border-[#363634] p-6 space-y-5 max-w-xl mx-auto">
             <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-white/60">Step 2</p>
-                <h2 className="text-xl font-semibold text-white">Payment</h2>
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#565452]">Step 2</p>
+                <h2 className="serif text-2xl font-light text-[#EDE9E3]">Payment</h2>
             </div>
             <PaymentElement />
-            {error && <p className="text-sm text-red-300 mt-2">{error}</p>}
+            {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
             <button onClick={handlePay} disabled={isProcessing} className="btn btn-primary w-full">
-                {isProcessing ? "Processing..." : `Pay ${formatPrice(totalPrice())}`}
+                {isProcessing ? "Processing…" : `Pay ${formatPrice(totalPrice())}`}
             </button>
         </div>
     )
-
 }

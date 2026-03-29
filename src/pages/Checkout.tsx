@@ -22,7 +22,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const inputClass = "w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60";
+const inputClass = "w-full bg-[var(--surface)] border border-[var(--border)] px-4 py-2.5 text-[var(--text)] placeholder:text-[var(--text-subtle)] focus:ring-1 focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:outline-none transition-colors text-sm rounded-[3px]";
+const labelClass = "block text-xs font-medium uppercase tracking-widest mb-1.5";
 
 export const Checkout = () => {
     const { items, totalPrice } = useCart();
@@ -59,16 +60,29 @@ export const Checkout = () => {
     if (placed) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="card glass p-10 text-center space-y-4 floating max-w-md w-full">
-                    <CheckCircle className="w-12 h-12 text-green-400 mx-auto" />
-                    <h2 className="text-2xl font-semibold text-white">Order placed!</h2>
-                    <p className="text-white/70">Thank you. Your order has been received.</p>
+                <div
+                    className="p-10 text-center space-y-4 max-w-md w-full"
+                    style={{
+                        background: "var(--surface)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "6px",
+                    }}
+                >
+                    <CheckCircle className="w-10 h-10 mx-auto" style={{color: "var(--accent)"}} strokeWidth={1.5} />
+                    <h2 className="syne text-3xl font-bold" style={{color: "var(--text)"}}>Order placed</h2>
+                    <p className="text-sm" style={{color: "var(--text-muted)"}}>Thank you. Your order has been received.</p>
                     {user && (
-                        <Link to="/account" className="btn btn-primary block">
+                        <Link to="/account" className="btn btn-primary block w-full text-center">
                             View my orders
                         </Link>
                     )}
-                    <Link to="/products" className="block text-sm text-white/50 hover:text-white/80 transition-colors">
+                    <Link
+                        to="/products"
+                        className="block text-sm transition-colors"
+                        style={{color: "var(--text-muted)"}}
+                        onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "var(--accent)"}
+                        onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "var(--text-muted)"}
+                    >
                         Continue shopping
                     </Link>
                 </div>
@@ -77,68 +91,69 @@ export const Checkout = () => {
     }
 
     if (items.length === 0) {
-        return <div className="py-10 text-center text-white/70">Your cart is empty.</div>;
+        return (
+            <div className="py-16 text-center text-sm" style={{color: "var(--text-muted)"}}>
+                Your cart is empty.
+            </div>
+        );
     }
 
     if (clientSecret && shippingData) {
         return (
             <Elements stripe={stripePromise} options={{
                 clientSecret,
-                fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" }],
+                fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&display=swap" }],
                 appearance: {
                     theme: "night",
                     variables: {
-                        colorPrimary: "#ffffff",
-                        colorBackground: "#0f172a",
-                        colorText: "#ffffff",
-                        colorTextSecondary: "rgba(255,255,255,0.6)",
-                        colorTextPlaceholder: "rgba(255,255,255,0.3)",
-                        colorDanger: "#fca5a5",
-                        borderRadius: "1rem",
-                        fontFamily: "'Manrope', sans-serif",
+                        colorPrimary: "#9B7FFF",
+                        colorBackground: "#111118",
+                        colorText: "#EAE8F2",
+                        colorTextSecondary: "#6C6A80",
+                        colorTextPlaceholder: "#3A3850",
+                        colorDanger: "#F87171",
+                        borderRadius: "3px",
+                        fontFamily: "'Outfit', sans-serif",
                     },
                     rules: {
                         ".Input": {
-                            backgroundColor: "rgba(255,255,255,0.05)",
-                            border: "1px solid rgba(255,255,255,0.1)",
-                            color: "#ffffff",
+                            backgroundColor: "#111118",
+                            border: "1px solid rgba(255,255,255,0.06)",
+                            color: "#EAE8F2",
                             boxShadow: "none",
+                            padding: "10px 14px",
                         },
                         ".Input:focus": {
-                            border: "1px solid rgba(124,58,237,0.6)",
-                            boxShadow: "0 0 0 3px rgba(124,58,237,0.25)",
+                            border: "1px solid #9B7FFF",
+                            boxShadow: "0 0 0 1px rgba(155,127,255,0.3)",
                         },
                         ".Label": {
-                            color: "rgba(255,255,255,0.8)",
-                            fontSize: "0.875rem",
+                            color: "#6C6A80",
+                            fontSize: "0.75rem",
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                            fontWeight: "500",
                         },
                         ".Tab": {
-                            backgroundColor: "rgba(255,255,255,0.05)",
-                            border: "1px solid rgba(255,255,255,0.1)",
-                            color: "rgba(255,255,255,0.7)",
+                            backgroundColor: "#18181F",
+                            border: "1px solid rgba(255,255,255,0.06)",
+                            color: "#6C6A80",
+                            boxShadow: "none",
                         },
                         ".Tab:hover": {
-                            backgroundColor: "rgba(255,255,255,0.08)",
-                            color: "#ffffff",
+                            backgroundColor: "#1E1E28",
+                            color: "#EAE8F2",
                         },
                         ".Tab--selected": {
-                            backgroundColor: "rgba(124,58,237,0.15)",
-                            border: "1px solid rgba(124,58,237,0.5)",
-                            color: "#ffffff",
-                            boxShadow: "0 0 0 2px rgba(124,58,237,0.3)",
+                            backgroundColor: "#1E1E28",
+                            border: "1px solid #9B7FFF",
+                            color: "#EAE8F2",
+                            boxShadow: "none",
                         },
-                        ".TabLabel": {
-                            color: "rgba(255,255,255,0.7)",
-                        },
-                        ".TabLabel--selected": {
-                            color: "#ffffff",
-                        },
-                        ".TermsText": {
-                            color: "rgba(255,255,255,0.4)",
-                        },
-                        ".TermsText a": {
-                            color: "rgba(255,255,255,0.4)",
-                        },
+                        ".TabLabel": { color: "#6C6A80" },
+                        ".TabLabel--selected": { color: "#EAE8F2" },
+                        ".TermsText": { color: "#3A3850" },
+                        ".TermsText a": { color: "#9B7FFF" },
                     },
                 },
             }}>
@@ -151,62 +166,88 @@ export const Checkout = () => {
     }
 
     return (
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
-            <form className="card glass p-5 space-y-4 floating" onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/60">Order</p>
-                    <h2 className="text-xl font-semibold text-white">Shipping details</h2>
-                </div>
-                <div>
-                    <label className="block text-sm mb-1 text-white/80">Full name*</label>
-                    <input className={inputClass} {...register("name")} />
-                    {errors.name && <p className="text-sm text-red-300 mt-1">{errors.name.message}</p>}
-                </div>
-                {!user && (
+        <div className="max-w-6xl mx-auto px-6 py-10">
+            <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
+                <form
+                    className="p-6 space-y-5"
+                    style={{
+                        background: "var(--surface)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "6px",
+                    }}
+                    onSubmit={handleSubmit(onSubmit)}
+                >
                     <div>
-                        <label className="block text-sm mb-1 text-white/80">Email*</label>
-                        <input className={inputClass} {...register("email")} />
-                        {errors.email && <p className="text-sm text-red-300 mt-1">{errors.email.message}</p>}
+                        <p className="text-[10px] font-medium uppercase tracking-[0.2em]" style={{color: "var(--text-subtle)"}}>Step 1</p>
+                        <h2 className="syne text-2xl font-bold" style={{color: "var(--text)"}}>Shipping details</h2>
                     </div>
-                )}
-                <div>
-                    <label className="block text-sm mb-1 text-white/80">Address*</label>
-                    <input className={inputClass} {...register("address")} />
-                    {errors.address && <p className="text-sm text-red-300 mt-1">{errors.address.message}</p>}
-                </div>
-                <div>
-                    <label className="block text-sm mb-1 text-white/80">Notes</label>
-                    <textarea className={`${inputClass} min-h-24`} {...register("notes")} />
-                </div>
+                    <div>
+                        <label className={labelClass} style={{color: "var(--text-muted)"}}>Full name*</label>
+                        <input className={inputClass} {...register("name")} placeholder="Jane Doe" />
+                        {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
+                    </div>
+                    {!user && (
+                        <div>
+                            <label className={labelClass} style={{color: "var(--text-muted)"}}>Email*</label>
+                            <input className={inputClass} {...register("email")} placeholder="your@email.com" />
+                            {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
+                        </div>
+                    )}
+                    <div>
+                        <label className={labelClass} style={{color: "var(--text-muted)"}}>Address*</label>
+                        <input className={inputClass} {...register("address")} placeholder="123 Main St, City" />
+                        {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address.message}</p>}
+                    </div>
+                    <div>
+                        <label className={labelClass} style={{color: "var(--text-muted)"}}>Notes</label>
+                        <textarea className={`${inputClass} min-h-24 resize-none`} {...register("notes")} placeholder="Any delivery notes…" />
+                    </div>
 
-                {!user && (
-                    <p className="text-sm text-white/50">
-                        <Link to="/login" className="text-white underline">Sign in</Link> to save your order history.
-                    </p>
-                )}
+                    {!user && (
+                        <p className="text-sm" style={{color: "var(--text-muted)"}}>
+                            <Link
+                                to="/login"
+                                className="transition-colors"
+                                style={{color: "var(--accent)"}}
+                                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "var(--text)"}
+                                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "var(--accent)"}
+                            >
+                                Sign in
+                            </Link>{" "}
+                            to save your order history.
+                        </p>
+                    )}
 
-                {error && <p className="text-sm text-red-300">{error}</p>}
+                    {error && <p className="text-red-400 text-sm">{error}</p>}
 
-                <button disabled={isSubmitting} className="btn btn-primary">
-                    {isSubmitting ? "Processing..." : "Place order"}
-                </button>
-            </form>
+                    <button disabled={isSubmitting} className="btn btn-primary w-full">
+                        {isSubmitting ? "Processing…" : "Continue to payment"}
+                    </button>
+                </form>
 
-            <aside className="card glass p-5 h-fit floating">
-                <h3 className="font-semibold mb-3 text-white">Summary</h3>
-                <ul className="space-y-2 mb-4">
-                    {items.map(item => (
-                        <li key={item.id} className="flex justify-between text-sm text-white/80">
-                            <span className="line-clamp-1">{item.title} × {item.qty}</span>
-                            <span>{formatPrice(item.price * item.qty)}</span>
-                        </li>
-                    ))}
-                </ul>
-                <div className="flex justify-between font-semibold text-lg text-white">
-                    <span>Total</span>
-                    <span>{formatPrice(totalPrice())}</span>
-                </div>
-            </aside>
+                <aside
+                    className="p-5 h-fit"
+                    style={{
+                        background: "var(--surface-raised)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "6px",
+                    }}
+                >
+                    <p className="text-[10px] font-medium uppercase tracking-[0.2em] mb-4" style={{color: "var(--text-subtle)"}}>Order summary</p>
+                    <ul className="space-y-2.5 mb-4">
+                        {items.map(item => (
+                            <li key={item.id} className="flex justify-between text-sm" style={{color: "var(--text-muted)"}}>
+                                <span className="line-clamp-1">{item.title} × {item.qty}</span>
+                                <span className="shrink-0 ml-3">{formatPrice(item.price * item.qty)}</span>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="pt-3 flex justify-between items-baseline" style={{borderTop: "1px solid var(--border)"}}>
+                        <span className="text-sm font-medium" style={{color: "var(--text)"}}>Total</span>
+                        <span className="syne text-xl font-bold" style={{color: "var(--accent)"}}>{formatPrice(totalPrice())}</span>
+                    </div>
+                </aside>
+            </div>
         </div>
     );
 };
