@@ -2,32 +2,16 @@ import type { Product } from "../types";
 
 const BASE_URL = 'https://fakestoreapi.com';
 
-export async function fetchProducts(): Promise<Product[]> {
-    const response = await fetch(`${BASE_URL}/products`);
+async function apiFetch<T>(path: string): Promise<T> {
+    const response = await fetch(`${BASE_URL}${path}`);
 
     if (!response.ok) {
-        throw new Error('Failed to fetch products');
+        throw new Error(`Http ${response.status} - from ${path}`)
     }
 
     return response.json();
 }
 
-export async function fetchProductById(id: string | number): Promise<Product> {
-    const response = await fetch(`${BASE_URL}/products/${id}`);
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch product');
-    }
-
-    return response.json();
-}
-
-export async function fetchCategories(): Promise<string[]> {
-    const response = await fetch(`${BASE_URL}/products/categories`);
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch categories');
-    }
-
-    return response.json();
-}
+export const fetchProducts = () => apiFetch<Product[]>('/products');
+export const fetchProductById = (id: string | number) => apiFetch<Product>(`/products/${id}`);
+export const fetchCategories = () => apiFetch<string[]>('/products/categories');

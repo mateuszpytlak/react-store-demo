@@ -23,9 +23,13 @@ export const useProducts = create(
             fetchAll: async () => {
                 const { products, cachedAt } = get();
                 if (products.length && cachedAt && Date.now() - cachedAt < TTL) return;
-                set({ loading: true });
-                const data = await fetchProducts();
-                set({ products: data, loading: false, cachedAt: Date.now() });
+                set({ loading: true, error: null });
+                try {
+                    const data = await fetchProducts();
+                    set({ products: data, loading: false, cachedAt: Date.now() });
+                } catch (err) {
+                    set({ error: (err as Error).message, loading: false });
+                }
             },
         }),
         { name: 'products-storage' }

@@ -36,7 +36,9 @@ describe('ProductCardComponent', () => {
     it('displays product title and price', () => {
         renderComponent();
 
-        expect(screen.getByRole('link', {name: /high quality laptop/i})).toHaveAttribute('href', '/products/42');
+        screen.getAllByRole('link', {name: /laptop/i}).forEach(link =>
+            expect(link).toHaveAttribute('href', '/products/42')
+        );
         expect(screen.getByText(/(PLN|zł)/)).toBeInTheDocument();
     })
 

@@ -67,6 +67,7 @@ export const ProductCard = ({product}: Props) => {
                     </span>
 
                     <button
+                        aria-label="Add to cart"
                         className="text-[10px] font-semibold tracking-widest uppercase px-4 py-2 transition-all duration-200"
                         style={{
                             background: "var(--accent-dim)",

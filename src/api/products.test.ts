@@ -35,9 +35,9 @@ describe('products api', () => {
     });
 
     it('throws an error when products request fails', async () => {
-        mockFetch.mockResolvedValueOnce({ok: false});
+        mockFetch.mockResolvedValueOnce({ok: false, status: 500});
 
-        await expect(fetchProducts()).rejects.toThrow('Failed to fetch products');
+        await expect(fetchProducts()).rejects.toThrow('Http 500 - from /products');
     });
 
     it('fetches single product and categories', async () => {
